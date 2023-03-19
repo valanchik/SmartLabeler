@@ -1,10 +1,5 @@
 ﻿using RectSelector;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ProcScan
@@ -30,7 +25,7 @@ namespace ProcScan
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && !_rectangleSelector.IsMouseInsideRectangle(e.Location) && ! _rectangleSelector.IsAnyProcess())
+            if ( false && e.Button == MouseButtons.Left && !_rectangleSelector.IsMouseInsideRectangle(e.Location) && ! _rectangleSelector.IsAnyProcess())
             {
                 _isMoving = true;
                 _lastMousePosition = e.Location;

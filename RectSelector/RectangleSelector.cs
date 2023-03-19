@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -21,6 +22,7 @@ namespace RectSelector
         private ResizableRectangle _resizableRect;
         private List<ResizableRectangle> _resizableRectangles;
         private ResizableRectangle _selectedResizableRect;
+        private float _scalingFactor = 1F;
 
         public RectangleSelector(PictureBox pictureBox, Label label, Button button)
         {
@@ -32,7 +34,15 @@ namespace RectSelector
 
             _resizableRect = new ResizableRectangle();
             _resizableRectangles = new List<ResizableRectangle>();
-            
+        }
+        public void SetScaleFactor(float scaleFactor)
+        {
+            if (scaleFactor > 0)
+            {
+                _scalingFactor = scaleFactor;
+                foreach (var rect in _resizableRectangles) rect.SetScaleFactor(_scalingFactor);
+            }
+            _pictureBox.Invalidate();
         }
 
         public bool IsAnyProcess()
@@ -86,7 +96,7 @@ namespace RectSelector
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             _label.Text = $"{e.Location}";
-            Point scaledLocation = new Point((int)(e.Location.X), (int)(e.Location.Y));
+            Point scaledLocation = new Point((int)(e.Location.X / _scalingFactor), (int)(e.Location.Y / _scalingFactor));
 
             if (_isDrawing && e.Button == MouseButtons.Left)
             {
@@ -138,7 +148,7 @@ namespace RectSelector
         private Cursor GetCursorForLocation(Point location, out ResizableRectangle selectedRect)
         {
             selectedRect = null;
-            Point scaledLocation = new Point((int)(location.X ), (int)(location.Y));
+            Point scaledLocation = new Point((int)(location.X * _scalingFactor), (int)(location.Y * _scalingFactor));
 
             foreach (var rect in _resizableRectangles)
             {
@@ -176,8 +186,8 @@ namespace RectSelector
             if (!_isDrawing && !_isResizing)
             {
                 _selectedResizableRect = null;
-                Point scaledLocation = new Point((int)(e.Location.X), (int)(e.Location.Y ));
-
+                Point scaledLocation = new Point((int)(e.Location.X), (int)(e.Location.Y));
+                Debug.WriteLine(scaledLocation);
                 foreach (var rect in _resizableRectangles)
                 {
                     int handleIndex = rect.GetSelectedHandle(scaledLocation);
@@ -202,7 +212,7 @@ namespace RectSelector
 
             if (_isDrawing)
             {
-                Point scaledLocation = new Point((int)(e.Location.X), (int)(e.Location.Y));
+                Point scaledLocation = new Point((int)(e.Location.X / _scalingFactor), (int)(e.Location.Y / _scalingFactor));
                 StartDrawing(scaledLocation);
             }
         }

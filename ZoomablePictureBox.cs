@@ -44,8 +44,8 @@ public class ZoomablePictureBox
         ZoomImage();
         _pictureBox.Left -= (int)((zoomRatio - 1) * zoomCenter.X);
         _pictureBox.Top -= (int)((zoomRatio - 1) * zoomCenter.Y);
+        _rectangleSelector.SetScaleFactor(_zoomFactor);
 
-        
     }
 
     private void ZoomImage()

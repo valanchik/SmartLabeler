@@ -8,12 +8,20 @@ namespace RectSelector
         private Rectangle _rect;
         private const int ResizeHandleSize = 8;
         Rectangle zoomedRect;
+        public float ScaleFactor { get; set; } = 1.0f;
 
         public ResizableRectangle()
         {
             _rect = new Rectangle();
         }
-        
+
+        public void SetScaleFactor(float scaleFactor)
+        {
+            if (scaleFactor > 0)
+            {
+                ScaleFactor = scaleFactor;
+            }
+        }
 
         public void SetLocation(Point location)
         {
@@ -73,8 +81,9 @@ namespace RectSelector
 
         public void ResizeRectangle(int handleIndex, Point startPoint, Point endPoint)
         {
-            int deltaX = (int)((endPoint.X - startPoint.X));
-            int deltaY = (int)((endPoint.Y - startPoint.Y) );
+            int deltaX = endPoint.X - startPoint.X ;
+            int deltaY = endPoint.Y - startPoint.Y ;
+
 
             int minWidth = (int)(10); // Minimum rectangle width
             int minHeight = (int)(10); // Minimum rectangle height
@@ -111,10 +120,10 @@ namespace RectSelector
             using (Pen pen = new Pen(Color.Red, 2))
             {
                 zoomedRect = new Rectangle(
-                    (int)(_rect.X),
-                    (int)(_rect.Y),
-                    (int)(_rect.Width ),
-                    (int)(_rect.Height )
+                    (int)(_rect.X * ScaleFactor),
+                    (int)(_rect.Y * ScaleFactor),
+                    (int)(_rect.Width * ScaleFactor),
+                    (int)(_rect.Height * ScaleFactor)
                 );
 
                 graphics.DrawRectangle(pen, zoomedRect);
@@ -128,14 +137,14 @@ namespace RectSelector
         }
         public bool IsMouseInsideRectangle(Point location)
         {
-            Point adjustedLocation = new Point((int)(location.X), (int)(location.Y));
+            Point adjustedLocation = new Point((int)(location.X / ScaleFactor), (int)(location.Y / ScaleFactor));
             return zoomedRect.Contains(adjustedLocation);
         }
 
         public void MoveRectangle(Point startPoint, Point endPoint)
         {
-            int deltaX = (int)((endPoint.X - startPoint.X) );
-            int deltaY = (int)((endPoint.Y - startPoint.Y) );
+            int deltaX = (int)((endPoint.X - startPoint.X) / ScaleFactor);
+            int deltaY = (int)((endPoint.Y - startPoint.Y) / ScaleFactor);
 
             _rect.X += deltaX;
             _rect.Y += deltaY;
@@ -145,14 +154,14 @@ namespace RectSelector
         {
             return new[]
             {
-        new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) ), (int)((_rect.Top - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
-        new Rectangle((int)((_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2) ), (int)((_rect.Top - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
-        new Rectangle((int)((_rect.Right - ResizeHandleSize / 2)), (int)((_rect.Top - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
-        new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) ), (int)((_rect.Top + _rect.Height / 2 - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
-        new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) ), (int)((_rect.Bottom - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
-        new Rectangle((int)((_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2) ), (int)((_rect.Bottom - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
-        new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) ), (int)((_rect.Bottom - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
-        new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) ), (int)((_rect.Top + _rect.Height / 2 - ResizeHandleSize / 2) ), (int)(ResizeHandleSize ), (int)(ResizeHandleSize )),
+        new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+        new Rectangle((int)((_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+        new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+        new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top + _rect.Height / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+        new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Bottom - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+        new Rectangle((int)((_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Bottom - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+        new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Bottom - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+        new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top + _rect.Height / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
     };
         }
 
