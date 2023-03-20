@@ -36,6 +36,7 @@ namespace ProcScan
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox = new ProcScan.DoubleBufferedPictureBox();
             this.doubleBufferedPanel1 = new ProcScan.DoubleBufferedPanel();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.doubleBufferedPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -95,11 +96,22 @@ namespace ProcScan
             this.doubleBufferedPanel1.Size = new System.Drawing.Size(682, 378);
             this.doubleBufferedPanel1.TabIndex = 6;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(754, 160);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 7;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1210, 571);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.doubleBufferedPanel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.addRectToFrame);
@@ -125,6 +137,7 @@ namespace ProcScan
         private DoubleBufferedPictureBox doubleBufferedPictureBox1;
         private DoubleBufferedPanel doubleBufferedPanel1;
         private DoubleBufferedPictureBox pictureBox;
+        private System.Windows.Forms.Button button1;
     }
 }
 

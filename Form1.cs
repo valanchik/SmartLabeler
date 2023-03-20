@@ -1,4 +1,5 @@
 ﻿using RectSelector;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace ProcScan
@@ -17,8 +18,10 @@ namespace ProcScan
             _zoomablePictureBox = new ZoomablePictureBox(pictureBox, _rectangleSelector);
         }
 
-
-
+        private void button1_Click(object sender, System.EventArgs e)
+        {
+            _rectangleSelector.UpdateAllRectangles();
+        }
     }
     public class DoubleBufferedPictureBox : PictureBox
     {
