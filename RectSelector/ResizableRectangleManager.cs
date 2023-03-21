@@ -4,17 +4,25 @@ using System.Drawing;
 
 namespace ProcScan.RectSelector
 {
-    public class ResizableRectangleManager
+    public class ResizableRectangleManager : IScalible
     {
-        private readonly ResizableRectangle _resizableRect;
+        private ResizableRectangle _resizableRect;
         private int _selectedHandle;
         private Point _startPoint;
+        private float _scaleFactor = 1f;
 
-        public ResizableRectangleManager(ResizableRectangle resizableRect)
+        public ResizableRectangleManager()
         {
-            _resizableRect = resizableRect;
-        }
 
+        }
+        public void SetResizableRectangle(ResizableRectangle resizableRectangle)
+        {
+            _resizableRect = resizableRectangle;
+        }
+        public void SetScaleFactor(float scaleFactor)
+        {
+            _scaleFactor = scaleFactor;
+        }
         public bool IsResizing => _selectedHandle != -1;
 
         public int GetSelectedHandle(Point location)
@@ -25,7 +33,7 @@ namespace ProcScan.RectSelector
         public void StartResizing(int handleIndex, Point startScaledPoint)
         {
             _selectedHandle = handleIndex;
-            _startPoint = startScaledPoint;
+            _startPoint = startScaledPoint.Multiply(_scaleFactor);
         }
 
         public void StopResizing()
@@ -36,9 +44,11 @@ namespace ProcScan.RectSelector
         public void Resize(Point endPoint)
         {
             if (_selectedHandle == -1) return;
-            
+            endPoint = endPoint.Multiply(_scaleFactor);
             _resizableRect.ResizeRectangle(_selectedHandle, _startPoint, endPoint);
             _startPoint = endPoint;
         }
+
+        
     }
 }

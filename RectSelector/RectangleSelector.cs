@@ -9,12 +9,10 @@ using System.Windows.Forms;
 namespace RectSelector
 {
 
-    public class RectangleSelector 
+    public class RectangleSelector :IScalible
     {
         
         private bool _isResizing;
-        private bool _isMoving;
-        private Point _startPoint;
         private readonly PictureBox _pictureBox;
         private readonly Label _label;
         private readonly Button _button;
@@ -37,6 +35,7 @@ namespace RectSelector
             _resizableRect = new ResizableRectangle();
             _resizableRectangles = new List<ResizableRectangle>();
             _rectangleMover = new RectangleMover(_resizableRect);
+            _resizableRectangleManager = new ResizableRectangleManager();
             _drawingRectangle = new DrawingRectangle();
             ResetState();
         }
@@ -49,6 +48,7 @@ namespace RectSelector
                     rect.SetScaleFactor(_scalingFactor);
                 }
                 _drawingRectangle.SetScaleFactor(_scalingFactor);
+                _resizableRectangleManager?.SetScaleFactor(_scalingFactor);
                 UpdateAllRectangles();
             }
            
@@ -56,7 +56,7 @@ namespace RectSelector
 
         public bool IsAnyProcess()
         {
-            return _isMoving || _isResizing || _drawingRectangle.IsDrawing;
+            return _rectangleMover.IsMoving || _resizableRectangleManager.IsResizing || _drawingRectangle.IsDrawing;
         }
 
         private void InitializeEventHandlers()
@@ -72,7 +72,7 @@ namespace RectSelector
         private void ResetState()
         {
             _drawingRectangle.StopDrawing();
-            _isResizing = false;
+            _resizableRectangleManager?.StopResizing();
             _selectedHandle = -1;
         }
 
@@ -105,7 +105,7 @@ namespace RectSelector
             {
                 StartDrawing(e.Location);
             }
-            else if (!_isResizing)
+            else if (!_resizableRectangleManager.IsResizing)
             {
                 ProcessSelectionAndResizing(e.Location);
             }
@@ -123,7 +123,7 @@ namespace RectSelector
                     this._selectedResizableRect = _selectedResizableRect;
                     StartResizing(location, handleIndex);
                 }
-                else if (_isMoving)
+                else if (_rectangleMover.IsMoving)
                 {
                     StartMoving(location);
                 }
@@ -151,8 +151,10 @@ namespace RectSelector
         private void StartResizing(Point location, int handleIndex)
         {
             _selectedHandle = handleIndex;
-            _resizableRectangleManager = new ResizableRectangleManager(_selectedResizableRect);
-            _resizableRectangleManager.StartResizing(_selectedHandle, location.Multiply(_scalingFactor));
+            _resizableRectangleManager = new ResizableRectangleManager();
+            _resizableRectangleManager.SetResizableRectangle(_selectedResizableRect);
+            _selectedResizableRect.SetScaleFactor(_scalingFactor);
+            _resizableRectangleManager.StartResizing(_selectedHandle, location);
         }
 
         private void StartMoving(Point location)
@@ -175,7 +177,7 @@ namespace RectSelector
                 _resizableRectangleManager.StopResizing();
             }
 
-            if (_isMoving)
+            if (_rectangleMover.IsMoving)
             {
                 _rectangleMover.StopMoving();
             }
@@ -185,7 +187,6 @@ namespace RectSelector
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             _label.Text = $"{e.Location}";
-            Point scaledLocation = e.Location.Multiply(_scalingFactor);
 
             if (_drawingRectangle.IsDrawing && e.Button == MouseButtons.Left)
             {
@@ -194,13 +195,13 @@ namespace RectSelector
             }
             else if (_resizableRectangleManager?.IsResizing == true && e.Button == MouseButtons.Left)
             {
-                _resizableRectangleManager.Resize(scaledLocation);
+                _resizableRectangleManager.Resize(e.Location);
                 UpdateAllRectangles();
             }
             else if (_rectangleMover?.IsMoving == true && e.Button == MouseButtons.Left)
             {
-                _rectangleMover.Move(scaledLocation);
-                _pictureBox.Invalidate();
+                _rectangleMover.Move(e.Location);
+                UpdateAllRectangles();
             }
             else
             {

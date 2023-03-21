@@ -1,14 +1,17 @@
-﻿using System.Drawing;
+﻿using ProcScan.RectSelector;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace RectSelector
 {
-    public class ResizableRectangle
+    public class ResizableRectangle: IScalible
     {
         private Rectangle _rect = new Rectangle();
-        private const int ResizeHandleSize = 8;
+        private const int ResizeHandleSize = 10;
         Rectangle zoomedRect;
         Rectangle[] handles;
+        private int minSize = ResizeHandleSize*2;
+
         public float ScaleFactor { get; set; } = 1.0f;
 
         public ResizableRectangle()
@@ -29,7 +32,6 @@ namespace RectSelector
             _rect.Location = location;
             _rect.Size = size;
         }
-
 
         public Rectangle GetRectangle()
         {
@@ -78,11 +80,11 @@ namespace RectSelector
         public void ResizeRectangle(int handleIndex, Point startPoint, Point endPoint)
         {
             
-            int deltaX = (int)((endPoint.X - startPoint.X) / ScaleFactor);
-            int deltaY = (int)((endPoint.Y - startPoint.Y) / ScaleFactor);
+            int deltaX = (int)((endPoint.X - startPoint.X));
+            int deltaY = (int)((endPoint.Y - startPoint.Y));
 
-            int minWidth = (int)(10); // Minimum rectangle width
-            int minHeight = (int)(10); // Minimum rectangle height
+            int minWidth = minSize; // Minimum rectangle width
+            int minHeight = minSize; // Minimum rectangle height
             
             int newWidth = _rect.Width;
             int newHeight = _rect.Height;
@@ -116,21 +118,16 @@ namespace RectSelector
             using (Pen pen = new Pen(Color.Red, 2))
             
             {
-                DrawOtherFunc(graphics);
                 graphics.DrawRectangle(pen, GetRectangle());
-
-                foreach (Rectangle handle in handles)
-                {
-                    graphics.FillRectangle(Brushes.White, handle);
-                    graphics.DrawRectangle(Pens.Black, handle);
-                }
+                DrawHandles(graphics);
             }
         }
-        public void DrawOtherFunc(Graphics graphics)
+        private void DrawHandles(Graphics graphics)
         {
-            using (Pen penGreen = new Pen(Color.Green, 2))
+            foreach (Rectangle handle in handles)
             {
-                graphics.DrawRectangle(penGreen, _rect);
+                graphics.FillRectangle(Brushes.White, handle);
+                graphics.DrawRectangle(Pens.Black, handle);
             }
         }
         public bool IsMouseInsideRectangle(Point location)
@@ -149,17 +146,18 @@ namespace RectSelector
 
         public void UpdateHandles()
         {
-            
+            Point location = new Point(_rect.Left - ResizeHandleSize / 2, _rect.Top - ResizeHandleSize / 2).Multiply(ScaleFactor);
+            Size size = new Size(ResizeHandleSize, ResizeHandleSize).Multiply(ScaleFactor);
             handles = new[]
             {
-                new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
-                new Rectangle((int)((_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
-                new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
-                new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top + _rect.Height / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
-                new Rectangle((int)((_rect.Right - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Bottom - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
-                new Rectangle((int)((_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Bottom - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
-                new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Bottom - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
-                new Rectangle((int)((_rect.Left - ResizeHandleSize / 2) * ScaleFactor), (int)((_rect.Top + _rect.Height / 2 - ResizeHandleSize / 2) * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor), (int)(ResizeHandleSize * ScaleFactor)),
+                new Rectangle(location, size),
+                new Rectangle(new Point(_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2, _rect.Top - ResizeHandleSize / 2).Multiply(ScaleFactor), size),
+                new Rectangle(new Point(_rect.Right - ResizeHandleSize / 2, _rect.Top - ResizeHandleSize / 2).Multiply(ScaleFactor), size),
+                new Rectangle(new Point(_rect.Right - ResizeHandleSize / 2, _rect.Top + _rect.Height / 2 - ResizeHandleSize / 2).Multiply(ScaleFactor), size),
+                new Rectangle(new Point(_rect.Right - ResizeHandleSize / 2, _rect.Bottom - ResizeHandleSize / 2).Multiply(ScaleFactor), size),
+                new Rectangle(new Point(_rect.Left + _rect.Width / 2 - ResizeHandleSize / 2, _rect.Bottom - ResizeHandleSize / 2).Multiply(ScaleFactor), size),
+                new Rectangle(new Point(_rect.Left - ResizeHandleSize / 2, _rect.Bottom - ResizeHandleSize / 2).Multiply(ScaleFactor), size),
+                new Rectangle(new Point(_rect.Left - ResizeHandleSize / 2, _rect.Top + _rect.Height / 2 - ResizeHandleSize / 2).Multiply(ScaleFactor), size),
             };
         }
     }
