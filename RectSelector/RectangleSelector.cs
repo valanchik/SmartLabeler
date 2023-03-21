@@ -113,8 +113,8 @@ namespace RectSelector
 
         private Point ScaleLocation(Point location)
         {
-            /*return new Point((int)(location.X * _scalingFactor), (int)(location.Y * _scalingFactor));*/
-            return location;
+            return new Point((int)(location.X * _scalingFactor), (int)(location.Y * _scalingFactor));
+            
         }
 
         private void ProcessSelectionAndResizing(Point scaledLocation)
@@ -125,6 +125,7 @@ namespace RectSelector
             {
                 if (handleIndex != -1)
                 {
+                    this._selectedResizableRect = _selectedResizableRect;
                     StartResizing(scaledLocation, handleIndex);
                 }
                 else if (_isMoving)
@@ -215,6 +216,7 @@ namespace RectSelector
         private void UpdateCursor(Point location)
         {
             (Cursor cursor, ResizableRectangle selectedRect) = GetCursorForLocation(location);
+            
             _pictureBox.Cursor = cursor;
             _selectedResizableRect = selectedRect;
         }

@@ -39,13 +39,10 @@ namespace RectSelector
             return scaledRect;
         }
 
-        public bool Contains(Point point)
-        {
-            return GetRectangle().Contains(point);
-        }
 
         public int GetSelectedHandle(Point location)
         {
+            location = new Point((int)(location.X / ScaleFactor), (int)(location.Y / ScaleFactor));
             if (handles == null) return -1;
             for (int i = 0; i < handles.Length; i++)
             {
