@@ -40,9 +40,9 @@ namespace RectSelector
         }
 
 
-        public int GetSelectedHandle(Point location)
+        public int GetSelectedHandle(Point location) // надо базовый
         {
-            location = new Point((int)(location.X / ScaleFactor), (int)(location.Y / ScaleFactor));
+            
             if (handles == null) return -1;
             for (int i = 0; i < handles.Length; i++)
             {
@@ -78,8 +78,8 @@ namespace RectSelector
         public void ResizeRectangle(int handleIndex, Point startPoint, Point endPoint)
         {
             
-            int deltaX = (int)((endPoint.X - startPoint.X));
-            int deltaY = (int)((endPoint.Y - startPoint.Y));
+            int deltaX = (int)((endPoint.X - startPoint.X) / ScaleFactor);
+            int deltaY = (int)((endPoint.Y - startPoint.Y) / ScaleFactor);
 
             int minWidth = (int)(10); // Minimum rectangle width
             int minHeight = (int)(10); // Minimum rectangle height
@@ -135,8 +135,7 @@ namespace RectSelector
         }
         public bool IsMouseInsideRectangle(Point location)
         {
-            Point adjustedLocation = new Point((int)(location.X * ScaleFactor), (int)(location.Y * ScaleFactor));
-            return zoomedRect.Contains(adjustedLocation);
+            return GetRectangle().Contains(location);
         }
 
         public void MoveRectangle(Point startPoint, Point endPoint)

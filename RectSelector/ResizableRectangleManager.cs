@@ -22,10 +22,10 @@ namespace ProcScan.RectSelector
             return _resizableRect.GetSelectedHandle(location);
         }
 
-        public void StartResizing(int handleIndex, Point startPoint)
+        public void StartResizing(int handleIndex, Point startScaledPoint)
         {
             _selectedHandle = handleIndex;
-            _startPoint = startPoint;
+            _startPoint = startScaledPoint;
         }
 
         public void StopResizing()
@@ -36,7 +36,7 @@ namespace ProcScan.RectSelector
         public void Resize(Point endPoint)
         {
             if (_selectedHandle == -1) return;
-
+            
             _resizableRect.ResizeRectangle(_selectedHandle, _startPoint, endPoint);
             _startPoint = endPoint;
         }

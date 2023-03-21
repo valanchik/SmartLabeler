@@ -45,7 +45,10 @@ namespace RectSelector
             if (scaleFactor > 0)
             {
                 _scalingFactor = scaleFactor;
-                foreach (var rect in _resizableRectangles) rect.SetScaleFactor(_scalingFactor);
+                foreach (var rect in _resizableRectangles) {
+                    rect.SetScaleFactor(_scalingFactor);
+                }
+                _drawingRectangle.SetScaleFactor(_scalingFactor);
                 UpdateAllRectangles();
             }
            
@@ -98,52 +101,44 @@ namespace RectSelector
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            Point scaledLocation = ScaleLocation(e.Location);
-
             if (_drawingRectangle.IsDrawing)
             {
-                StartDrawing(scaledLocation);
-                Debug.WriteLine($"StartDrawing - {scaledLocation}");
+                StartDrawing(e.Location);
             }
             else if (!_isResizing)
             {
-                ProcessSelectionAndResizing(scaledLocation);
+                ProcessSelectionAndResizing(e.Location);
             }
         }
 
-        private Point ScaleLocation(Point location)
-        {
-            return new Point((int)(location.X * _scalingFactor), (int)(location.Y * _scalingFactor));
-            
-        }
 
-        private void ProcessSelectionAndResizing(Point scaledLocation)
+        private void ProcessSelectionAndResizing(Point location)
         {
-            (ResizableRectangle _selectedResizableRect, int handleIndex) = GetSelectedResizableRectangle(scaledLocation);
+            (ResizableRectangle _selectedResizableRect, int handleIndex) = GetSelectedResizableRectangle(location);
 
             if (_selectedResizableRect != null)
             {
                 if (handleIndex != -1)
                 {
                     this._selectedResizableRect = _selectedResizableRect;
-                    StartResizing(scaledLocation, handleIndex);
+                    StartResizing(location, handleIndex);
                 }
                 else if (_isMoving)
                 {
-                    StartMoving(scaledLocation);
+                    StartMoving(location);
                 }
             }
         }
 
-        private (ResizableRectangle, int) GetSelectedResizableRectangle(Point scaledLocation)
+        private (ResizableRectangle, int) GetSelectedResizableRectangle(Point location)
         {
             int handleIndex = -1;
             ResizableRectangle selectedRect = null;
 
             foreach (var rect in _resizableRectangles)
             {
-                handleIndex = rect.GetSelectedHandle(scaledLocation);
-                if (handleIndex != -1 || rect.IsMouseInsideRectangle(scaledLocation))
+                handleIndex = rect.GetSelectedHandle(location);
+                if (handleIndex != -1 || rect.IsMouseInsideRectangle(location))
                 {
                     selectedRect = rect;
                     break;
@@ -153,17 +148,17 @@ namespace RectSelector
             return (selectedRect, handleIndex);
         }
 
-        private void StartResizing(Point scaledLocation, int handleIndex)
+        private void StartResizing(Point location, int handleIndex)
         {
             _selectedHandle = handleIndex;
             _resizableRectangleManager = new ResizableRectangleManager(_selectedResizableRect);
-            _resizableRectangleManager.StartResizing(_selectedHandle, scaledLocation);
+            _resizableRectangleManager.StartResizing(_selectedHandle, location.Multiply(_scalingFactor));
         }
 
-        private void StartMoving(Point scaledLocation)
+        private void StartMoving(Point location)
         {
             _rectangleMover = new RectangleMover(_selectedResizableRect);
-            _rectangleMover.StartMoving(scaledLocation);
+            _rectangleMover.StartMoving(location.Multiply(_scalingFactor));
         }
 
         
@@ -190,11 +185,11 @@ namespace RectSelector
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
             _label.Text = $"{e.Location}";
-            Point scaledLocation = new Point((int)(e.Location.X * _scalingFactor), (int)(e.Location.Y * _scalingFactor));
+            Point scaledLocation = e.Location.Multiply(_scalingFactor);
 
             if (_drawingRectangle.IsDrawing && e.Button == MouseButtons.Left)
             {
-                _drawingRectangle.UpdateRectangleSize(scaledLocation);
+                _drawingRectangle.UpdateRectangleSize(e.Location);
                 UpdateAllRectangles();
             }
             else if (_resizableRectangleManager?.IsResizing == true && e.Button == MouseButtons.Left)
@@ -210,7 +205,7 @@ namespace RectSelector
             else
             {
                 UpdateAllRectangles();
-                UpdateCursor(scaledLocation);
+                UpdateCursor(e.Location);
             }
         }
         private void UpdateCursor(Point location)
@@ -223,16 +218,17 @@ namespace RectSelector
 
         private (Cursor, ResizableRectangle) GetCursorForLocation(Point location)
         {
+            // location уже умножен
             ResizableRectangle selectedRect = null;
-
+            //var forIsmouseinside = new Point((int)(location.X / _scalingFactor), (int)(location.Y / _scalingFactor));
             foreach (var rect in _resizableRectangles)
             {
-                int handleIndex = rect.GetSelectedHandle(location);
+                int handleIndex = rect.GetSelectedHandle(location); // надо умноженный
                 if (handleIndex > -1)
                 {
                     return (rect.GetCursorForHandle(handleIndex), rect);
                 }
-                else if (rect.IsMouseInsideRectangle(location))
+                else if (rect.IsMouseInsideRectangle(location)) // надо базовый
                 {
                     selectedRect = rect;
                 }

@@ -13,9 +13,11 @@ namespace ProcScan.RectSelector
         public bool IsDrawing;
         private Point _startPoint;
         private  ResizableRectangle _resizableRect;
+        private float _scaleFactor = 1F;
 
         public DrawingRectangle()
         {
+
         }
 
         public void SetResizebleRectangle(ResizableRectangle  resizableRectangle)
@@ -25,13 +27,13 @@ namespace ProcScan.RectSelector
 
         public void SetScaleFactor(float scaleFactor)
         {
-            _resizableRect.SetScaleFactor(scaleFactor);
+            _scaleFactor = scaleFactor;
         }
 
         public void StartDrawing(Point startPoint)
         {
             IsDrawing = true;
-            SetStartPoint(startPoint);
+            _startPoint = startPoint.Divide(_scaleFactor);
             _resizableRect.SetLocationAndSize(_startPoint, new Size());
             _resizableRect.UpdateHandles();
         }
@@ -55,11 +57,6 @@ namespace ProcScan.RectSelector
         public void DrawRectangleAndHandles(Graphics g)
         {
             _resizableRect.DrawRectangleAndHandles(g);
-        }
-
-        private void SetStartPoint(Point startPoint)
-        {
-            _startPoint = startPoint;
         }
 
         public Rectangle GetRectangle()
