@@ -45,11 +45,11 @@ namespace ProcScan.RectSelector
 
         public void UpdateRectangleSize(Point endPoint)
         {
+            endPoint = endPoint.Divide(_scaleFactor);
             int x = Math.Min(_startPoint.X, endPoint.X);
             int y = Math.Min(_startPoint.Y, endPoint.Y);
             int width = Math.Abs(_startPoint.X - endPoint.X);
             int height = Math.Abs(_startPoint.Y - endPoint.Y);
-
             _resizableRect.SetLocationAndSize(new Point(x, y), new Size(width, height));
             _resizableRect.UpdateHandles();
         }
