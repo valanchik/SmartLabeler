@@ -1,17 +1,19 @@
 ﻿using ProcScan;
 using RectSelector;
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
 public class ZoomablePictureBox
 {
     private PictureBox _pictureBox;
-    private float _zoomFactor;
-    private const float ZoomIncrement = 0.1f;
+    private double _zoomFactor;
+    private const double ZoomIncrement = 0.05f;
+    private const double MinZoomFactor = 0.1f;
+    private const double MaxZoomFactor = 10.0f;
 
     private RectangleSelector _rectangleSelector;
-    private PictureBoxMover _pictureBoxMover;
 
     public ZoomablePictureBox(PictureBox pictureBox, RectangleSelector rectangleSelector)
     {
@@ -25,29 +27,35 @@ public class ZoomablePictureBox
 
     private void PictureBox_MouseWheel(object sender, MouseEventArgs e)
     {
-        float oldZoomFactor = _zoomFactor;
+        double oldZoomFactor = _zoomFactor;
 
         if (e.Delta > 0)
         {
-            _zoomFactor += ZoomIncrement;
+            double newZoomFactor = _zoomFactor + ZoomIncrement * _zoomFactor;
+            if (newZoomFactor <= MaxZoomFactor) // Проверьте, не превышает ли новый масштаб максимальное значение
+            {
+                _zoomFactor = newZoomFactor;
+            }
         }
         else
         {
-            _zoomFactor -= ZoomIncrement;
-            _zoomFactor = Math.Max(_zoomFactor, 1.0f);
+            _zoomFactor -= ZoomIncrement * _zoomFactor;
+            _zoomFactor = Math.Max(_zoomFactor, MinZoomFactor);
         }
 
-        float zoomRatio = _zoomFactor / oldZoomFactor;
+        double zoomRatio = _zoomFactor / oldZoomFactor;
 
-        Point zoomCenter = _pictureBox.PointToClient(Cursor.Position);
         _rectangleSelector.SetScaleFactor(_zoomFactor);
         ZoomImage();
+        SetPositionImage(zoomRatio);
+        Debug.WriteLine($"_zoomFactor = {_zoomFactor}");
+    }
+
+    private void SetPositionImage(double zoomRatio)
+    {
+        Point zoomCenter = _pictureBox.PointToClient(Cursor.Position);
         _pictureBox.Left -= (int)((zoomRatio - 1) * zoomCenter.X);
         _pictureBox.Top -= (int)((zoomRatio - 1) * zoomCenter.Y);
-
-        
-
-
     }
 
     private void ZoomImage()

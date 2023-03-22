@@ -11,4 +11,13 @@ public static class PointExtensions
     {
         return new Point((int)(point.X / scalar), (int)(point.Y / scalar));
     }
+    public static Point Multiply(this Point point, double scalar)
+    {
+        return new Point((int)(point.X * scalar), (int)(point.Y * scalar));
+    }
+
+    public static Point Divide(this Point point, double scalar)
+    {
+        return new Point((int)(point.X / scalar), (int)(point.Y / scalar));
+    }
 }

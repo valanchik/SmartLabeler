@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace ProcScan.RectSelector
 {
-    public class DrawingRectangle
+    public class DrawingRectangle: IScalible
     {
         public bool IsDrawing;
         private Point _startPoint;
         private  ResizableRectangle _resizableRect;
-        private float _scaleFactor = 1F;
+        private double _scaleFactor = 1F;
 
         public DrawingRectangle()
         {
@@ -25,7 +25,7 @@ namespace ProcScan.RectSelector
             _resizableRect = resizableRectangle;
         }
 
-        public void SetScaleFactor(float scaleFactor)
+        public void SetScaleFactor(double scaleFactor)
         {
             _scaleFactor = scaleFactor;
         }

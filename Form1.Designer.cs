@@ -37,8 +37,10 @@ namespace ProcScan
             this.pictureBox = new ProcScan.DoubleBufferedPictureBox();
             this.doubleBufferedPanel1 = new ProcScan.DoubleBufferedPanel();
             this.button1 = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.doubleBufferedPanel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -64,7 +66,8 @@ namespace ProcScan
             // 
             // addRectToFrame
             // 
-            this.addRectToFrame.Location = new System.Drawing.Point(750, 82);
+            this.addRectToFrame.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.addRectToFrame.Location = new System.Drawing.Point(39, 65);
             this.addRectToFrame.Name = "addRectToFrame";
             this.addRectToFrame.Size = new System.Drawing.Size(75, 23);
             this.addRectToFrame.TabIndex = 3;
@@ -73,8 +76,9 @@ namespace ProcScan
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(792, 446);
+            this.label1.Location = new System.Drawing.Point(1092, 448);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 15);
             this.label1.TabIndex = 4;
@@ -85,20 +89,26 @@ namespace ProcScan
             this.pictureBox.Location = new System.Drawing.Point(40, 46);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(395, 243);
+            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox.TabIndex = 5;
             this.pictureBox.TabStop = false;
             // 
             // doubleBufferedPanel1
             // 
+            this.doubleBufferedPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.doubleBufferedPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.doubleBufferedPanel1.Controls.Add(this.pictureBox);
-            this.doubleBufferedPanel1.Location = new System.Drawing.Point(12, 69);
+            this.doubleBufferedPanel1.Location = new System.Drawing.Point(12, 41);
             this.doubleBufferedPanel1.Name = "doubleBufferedPanel1";
-            this.doubleBufferedPanel1.Size = new System.Drawing.Size(682, 378);
+            this.doubleBufferedPanel1.Size = new System.Drawing.Size(1018, 438);
             this.doubleBufferedPanel1.TabIndex = 6;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(754, 160);
+            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.button1.Location = new System.Drawing.Point(39, 22);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -106,21 +116,34 @@ namespace ProcScan
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.addRectToFrame);
+            this.groupBox1.Location = new System.Drawing.Point(1036, 41);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(170, 107);
+            this.groupBox1.TabIndex = 8;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "groupBox1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1210, 571);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.doubleBufferedPanel1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.addRectToFrame);
             this.Controls.Add(this.videoFilePath);
             this.Controls.Add(this.openVideoButton);
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.doubleBufferedPanel1.ResumeLayout(false);
+            this.doubleBufferedPanel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -138,6 +161,7 @@ namespace ProcScan
         private DoubleBufferedPanel doubleBufferedPanel1;
         private DoubleBufferedPictureBox pictureBox;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 

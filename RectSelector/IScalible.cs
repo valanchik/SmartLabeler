@@ -8,6 +8,6 @@ namespace RectSelector
 {
     interface IScalible
     {
-        void SetScaleFactor(float scaleFactor);
+        void SetScaleFactor(double scaleFactor);
     }
 }

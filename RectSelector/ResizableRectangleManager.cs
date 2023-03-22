@@ -9,7 +9,7 @@ namespace ProcScan.RectSelector
         private ResizableRectangle _resizableRect;
         private int _selectedHandle;
         private Point _startPoint;
-        private float _scaleFactor = 1f;
+        private double _scaleFactor = 1f;
 
         public ResizableRectangleManager()
         {
@@ -19,7 +19,7 @@ namespace ProcScan.RectSelector
         {
             _resizableRect = resizableRectangle;
         }
-        public void SetScaleFactor(float scaleFactor)
+        public void SetScaleFactor(double scaleFactor)
         {
             _scaleFactor = scaleFactor;
         }

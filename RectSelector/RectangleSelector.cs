@@ -24,7 +24,7 @@ namespace RectSelector
         private ResizableRectangleManager _resizableRectangleManager;
         private DrawingRectangle _drawingRectangle;
         private RectangleMover _rectangleMover;
-        private float _scalingFactor = 1F;
+        private double _scalingFactor = 1F;
 
         public RectangleSelector(PictureBox pictureBox, Label label, Button button)
         {
@@ -39,7 +39,7 @@ namespace RectSelector
             _drawingRectangle = new DrawingRectangle();
             ResetState();
         }
-        public void SetScaleFactor(float scaleFactor)
+        public void SetScaleFactor(double scaleFactor)
         {
             if (scaleFactor > 0)
             {
@@ -123,7 +123,7 @@ namespace RectSelector
                     this._selectedResizableRect = _selectedResizableRect;
                     StartResizing(location, handleIndex);
                 }
-                else if (_rectangleMover.IsMoving)
+                else if (!_rectangleMover.IsMoving)
                 {
                     StartMoving(location);
                 }
@@ -160,7 +160,7 @@ namespace RectSelector
         private void StartMoving(Point location)
         {
             _rectangleMover = new RectangleMover(_selectedResizableRect);
-            _rectangleMover.StartMoving(location.Multiply(_scalingFactor));
+            _rectangleMover.StartMoving(location);
         }
 
         
@@ -206,15 +206,17 @@ namespace RectSelector
             else
             {
                 UpdateAllRectangles();
-                UpdateCursor(e.Location);
+                (Cursor cursor, ResizableRectangle selectedRect) = GetCursorForLocation(e.Location);
+
+                _pictureBox.Cursor = cursor;
+                if (selectedRect!=null) {
+                    selectedRect.SetDrawHandleStatus(true);
+                } else
+                {
+                    _selectedResizableRect?.SetDrawHandleStatus(false);
+                }
+                _selectedResizableRect = selectedRect;
             }
-        }
-        private void UpdateCursor(Point location)
-        {
-            (Cursor cursor, ResizableRectangle selectedRect) = GetCursorForLocation(location);
-            
-            _pictureBox.Cursor = cursor;
-            _selectedResizableRect = selectedRect;
         }
 
         private (Cursor, ResizableRectangle) GetCursorForLocation(Point location)

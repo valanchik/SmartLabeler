@@ -25,7 +25,7 @@ namespace ProcScan
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
         {
-            if ( false && e.Button == MouseButtons.Left && !_rectangleSelector.IsMouseInsideRectangle(e.Location) && ! _rectangleSelector.IsAnyProcess())
+            if (  e.Button == MouseButtons.Left && !_rectangleSelector.IsMouseInsideRectangle(e.Location) && ! _rectangleSelector.IsAnyProcess())
             {
                 _isMoving = true;
                 _lastMousePosition = e.Location;
