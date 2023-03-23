@@ -15,7 +15,7 @@ namespace RectSelector
         private bool _isResizing;
         private readonly PictureBox _pictureBox;
         private readonly Label _label;
-        private readonly Button _button;
+        
         private int _selectedHandle;
 
         private ResizableRectangle _resizableRect;
@@ -25,12 +25,14 @@ namespace RectSelector
         private DrawingRectangle _drawingRectangle;
         private RectangleMover _rectangleMover;
         private double _scalingFactor = 1F;
+        private InputRectController _inputController;
 
-        public RectangleSelector(PictureBox pictureBox, Label label, Button button)
+        public RectangleSelector(PictureBox pictureBox, Label label, InputRectController inputController)
         {
             _pictureBox = pictureBox;
+            _inputController = inputController;
             _label = label;
-            _button = button;
+            
             InitializeEventHandlers();
             _resizableRect = new ResizableRectangle();
             _resizableRectangles = new List<ResizableRectangle>();
@@ -38,6 +40,10 @@ namespace RectSelector
             _resizableRectangleManager = new ResizableRectangleManager();
             _drawingRectangle = new DrawingRectangle();
             ResetState();
+        }
+        public PictureBox GetPictureBox()
+        {
+            return _pictureBox;
         }
         public void SetScaleFactor(double scaleFactor)
         {
@@ -51,7 +57,6 @@ namespace RectSelector
                 _resizableRectangleManager?.SetScaleFactor(_scalingFactor);
                 UpdateAllRectangles();
             }
-           
         }
 
         public bool IsAnyProcess()
@@ -66,7 +71,7 @@ namespace RectSelector
             _pictureBox.MouseDown += PictureBox_MouseDown;
             _pictureBox.MouseUp += PictureBox_MouseUp;
             _pictureBox.Paint += PictureBox_Paint;
-            _button.Click += Button_Click;
+            _inputController.OnClickNewRect += ClickOnNewRect;
         }
 
         private void ResetState()
@@ -76,14 +81,14 @@ namespace RectSelector
             _selectedHandle = -1;
         }
 
-        private void Button_Click(object sender, EventArgs e)
+        private void ClickOnNewRect(object sender, EventArgs e)
         {
             _resizableRect = new ResizableRectangle();
             _resizableRect.SetScaleFactor(_scalingFactor);
             _resizableRectangles.Add(_resizableRect);
             _drawingRectangle.SetResizebleRectangle(_resizableRect);
             _drawingRectangle.IsDrawing = true;
-            _button.Enabled = false;
+            _inputController.SetActiveElement(InputElementType.CreateNewRectBtn, false);
         }
 
         private void PictureBox_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -213,7 +218,10 @@ namespace RectSelector
                     selectedRect.SetDrawHandleStatus(true);
                 } else
                 {
-                    _selectedResizableRect?.SetDrawHandleStatus(false);
+                    foreach (var rect in _resizableRectangles)
+                    {
+                        rect.SetDrawHandleStatus(false);
+                    }
                 }
                 _selectedResizableRect = selectedRect;
             }
@@ -262,7 +270,7 @@ namespace RectSelector
         private void StopDrawing()
         {
             _drawingRectangle.StopDrawing();
-            _button.Enabled = true;
+            _inputController.SetActiveElement(InputElementType.CreateNewRectBtn, true);
             UpdateAllRectangles();
         }
 

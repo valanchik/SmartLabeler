@@ -14,10 +14,11 @@ public class ZoomablePictureBox
     private const double MaxZoomFactor = 10.0f;
 
     private RectangleSelector _rectangleSelector;
+    private PictureBoxMover _pictureBoxMover;
 
-    public ZoomablePictureBox(PictureBox pictureBox, RectangleSelector rectangleSelector)
+    public ZoomablePictureBox(RectangleSelector rectangleSelector)
     {
-        _pictureBox = pictureBox;
+        _pictureBox = rectangleSelector.GetPictureBox();
         _rectangleSelector = rectangleSelector;
         _zoomFactor = 1.0f;
 

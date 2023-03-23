@@ -32,7 +32,7 @@ namespace ProcScan
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openVideoButton = new System.Windows.Forms.Button();
             this.videoFilePath = new System.Windows.Forms.TextBox();
-            this.addRectToFrame = new System.Windows.Forms.Button();
+            this.addRectToFrameBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox = new ProcScan.DoubleBufferedPictureBox();
             this.doubleBufferedPanel1 = new ProcScan.DoubleBufferedPanel();
@@ -64,15 +64,15 @@ namespace ProcScan
             this.videoFilePath.Size = new System.Drawing.Size(366, 23);
             this.videoFilePath.TabIndex = 2;
             // 
-            // addRectToFrame
+            // addRectToFrameBtn
             // 
-            this.addRectToFrame.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.addRectToFrame.Location = new System.Drawing.Point(39, 65);
-            this.addRectToFrame.Name = "addRectToFrame";
-            this.addRectToFrame.Size = new System.Drawing.Size(75, 23);
-            this.addRectToFrame.TabIndex = 3;
-            this.addRectToFrame.Text = "button1";
-            this.addRectToFrame.UseVisualStyleBackColor = true;
+            this.addRectToFrameBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.addRectToFrameBtn.Location = new System.Drawing.Point(39, 65);
+            this.addRectToFrameBtn.Name = "addRectToFrameBtn";
+            this.addRectToFrameBtn.Size = new System.Drawing.Size(75, 23);
+            this.addRectToFrameBtn.TabIndex = 3;
+            this.addRectToFrameBtn.Text = "button1";
+            this.addRectToFrameBtn.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -114,13 +114,12 @@ namespace ProcScan
             this.button1.TabIndex = 7;
             this.button1.Text = "button1";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.addRectToFrame);
+            this.groupBox1.Controls.Add(this.addRectToFrameBtn);
             this.groupBox1.Location = new System.Drawing.Point(1036, 41);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(170, 107);
@@ -153,7 +152,7 @@ namespace ProcScan
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button openVideoButton;
         private System.Windows.Forms.TextBox videoFilePath;
-        private System.Windows.Forms.Button addRectToFrame;
+        private System.Windows.Forms.Button addRectToFrameBtn;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         protected System.Windows.Forms.Panel panel2;

@@ -10,18 +10,16 @@ namespace ProcScan
         private VideoFileSelector _videoFileSelector;
         private RectangleSelector _rectangleSelector;
         private ZoomablePictureBox _zoomablePictureBox;
+        private InputRectController _inputRectController;
         public Form1()
         {
             InitializeComponent();
             _videoFileSelector = new VideoFileSelector(videoFilePath, pictureBox, openVideoButton);
-            _rectangleSelector = new RectangleSelector(pictureBox, label1, addRectToFrame);
-            _zoomablePictureBox = new ZoomablePictureBox(pictureBox, _rectangleSelector);
+            _inputRectController = new InputRectController(addRectToFrameBtn);
+            _rectangleSelector = new RectangleSelector(pictureBox, label1, _inputRectController);
+            _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
         }
 
-        private void button1_Click(object sender, System.EventArgs e)
-        {
-            _rectangleSelector.UpdateAllRectangles();
-        }
     }
     public class DoubleBufferedPictureBox : PictureBox
     {
