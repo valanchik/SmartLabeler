@@ -1,4 +1,6 @@
-﻿using RectSelector;
+﻿using InputControllers;
+using PicturePlayer;
+using RectSelector;
 using System.Drawing;
 using System.Windows.Forms;
 

@@ -5,13 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace RectSelector
+namespace InputControllers
 {
-    public enum InputElementType
-    {
-        CreateNewRectBtn
-    }
-    public class InputRectController
+    public class InputRectController : IInputController
     {
         private readonly Button _createNewRect;
         public event EventHandler<EventArgs> OnClickNewRect;
@@ -28,7 +24,7 @@ namespace RectSelector
                     _createNewRect.Enabled = status;
                     break;
             }
-                
+
         }
         private void CreateNewRectClickHandler(object sender, EventArgs e)
         {
