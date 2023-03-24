@@ -7,6 +7,7 @@ namespace RectSelector
 {
     public class ResizableRectangle: IScalible
     {
+        public readonly int Index;
         private Rectangle _rect = new Rectangle();
         private const int ResizeHandleSize = 6;
         Rectangle[] handles;
@@ -15,8 +16,9 @@ namespace RectSelector
         public double ScaleFactor { get; set; } = 1.0f;
         private bool _drawHandleStatus = false;
 
-        public ResizableRectangle()
+        public ResizableRectangle(int index)
         {
+            Index = index;
             UpdateHandles();
         }
         public void SetScaleFactor(double scaleFactor)

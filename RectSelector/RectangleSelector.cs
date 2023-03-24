@@ -34,7 +34,6 @@ namespace RectSelector
             _label = label;
             
             InitializeEventHandlers();
-            _resizableRect = new ResizableRectangle();
             _resizableRectangles = new List<ResizableRectangle>();
             _rectangleMover = new RectangleMover(_resizableRect);
             _resizableRectangleManager = new ResizableRectangleManager();
@@ -83,7 +82,7 @@ namespace RectSelector
 
         private void ClickOnNewRect(object sender, EventArgs e)
         {
-            _resizableRect = new ResizableRectangle();
+            _resizableRect = new ResizableRectangle(_resizableRectangles.Count);
             _resizableRect.SetScaleFactor(_scalingFactor);
             _resizableRectangles.Add(_resizableRect);
             _drawingRectangle.SetResizebleRectangle(_resizableRect);
@@ -168,8 +167,6 @@ namespace RectSelector
             _rectangleMover.StartMoving(location);
         }
 
-        
-
         private void PictureBox_MouseUp(object sender, MouseEventArgs e)
         {
             if (_drawingRectangle.IsDrawing)
@@ -216,6 +213,11 @@ namespace RectSelector
                 _pictureBox.Cursor = cursor;
                 if (selectedRect!=null) {
                     selectedRect.SetDrawHandleStatus(true);
+                    var list = _resizableRectangles.FindAll(x=> x.Index!=selectedRect.Index);
+                    foreach (var rect in list)
+                    {
+                        rect.SetDrawHandleStatus(false);
+                    }
                 } else
                 {
                     foreach (var rect in _resizableRectangles)
@@ -226,7 +228,6 @@ namespace RectSelector
                 _selectedResizableRect = selectedRect;
             }
         }
-
         private (Cursor, ResizableRectangle) GetCursorForLocation(Point location)
         {
             // location уже умножен
@@ -250,6 +251,7 @@ namespace RectSelector
 
         public bool IsMouseInsideRectangle(Point location)
         {
+            if (_resizableRect == null) return false;
             return _resizableRect.IsMouseInsideRectangle(location);
         }
 
@@ -276,6 +278,7 @@ namespace RectSelector
 
         private void UpdateLabel()
         {
+            if (_resizableRect==null) return;
             Rectangle rect = _resizableRect.GetRectangle();
             _label.Text = $"X: {rect.X}, Y: {rect.Y}, Ширина: {rect.Width}, Высота: {rect.Height}";
         }
