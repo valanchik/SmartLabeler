@@ -12,8 +12,6 @@ namespace RectSelector
 
     public class RectangleSelector :IScalible
     {
-        
-        private bool _isResizing;
         private readonly PictureBox _pictureBox;
         private readonly Label _label;
         

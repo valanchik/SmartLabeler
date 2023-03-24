@@ -13,13 +13,17 @@ namespace ProcScan
         private RectangleSelector _rectangleSelector;
         private ZoomablePictureBox _zoomablePictureBox;
         private InputRectController _inputRectController;
+        private Player picturePlayer;
         public Form1()
         {
             InitializeComponent();
-            _videoFileSelector = new VideoFileSelector(videoFilePath, pictureBox, openVideoButton);
+            
             _inputRectController = new InputRectController(addRectToFrameBtn);
             _rectangleSelector = new RectangleSelector(pictureBox, label1, _inputRectController);
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
+
+            _videoFileSelector = new VideoFileSelector(videoFilePath, pictureBox, openVideoButton);
+            picturePlayer = new Player(_videoFileSelector, pictureBox);
         }
 
     }
