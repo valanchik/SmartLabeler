@@ -1,7 +1,9 @@
 ﻿using InputControllers;
 using PicturePlayer;
 using RectSelector;
+using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace ProcScan
@@ -23,9 +25,22 @@ namespace ProcScan
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
 
             _videoFileSelector = new VideoFileSelector(videoFilePath, pictureBox, openVideoButton);
+            IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
+            _videoFileSelector.SetFrameSaver(frameSaver);
             picturePlayer = new Player(_videoFileSelector, pictureBox);
         }
+        private string GetRandomeDir()
+        {
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string randomFolderName = Path.GetRandomFileName();
+            return  Path.Combine(appDirectory, randomFolderName);
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            _videoFileSelector.SaveAllFrames();
+
+        }
     }
     public class DoubleBufferedPictureBox : PictureBox
     {

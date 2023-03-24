@@ -10,6 +10,8 @@ namespace PicturePlayer
         private TextBox _textBox;
         private PictureBox _pictureBox;
 
+        private IFrameSaver _frameSaver;
+
         public VideoFileSelector(TextBox textBox, PictureBox pictureBox, Button openVideoButton)
         {
             _textBox = textBox;
@@ -20,6 +22,10 @@ namespace PicturePlayer
         private void OpenVideoButton_Click(object sender, System.EventArgs e)
         {
             OpenVideoFile();
+        }
+        public void SetFrameSaver(IFrameSaver frameSaver)
+        {
+            _frameSaver = frameSaver;
         }
 
         public void OpenVideoFile()
@@ -43,7 +49,7 @@ namespace PicturePlayer
             }
         }
 
-        public void ShowNextFrame()
+        public bool ShowNextFrame()
         {
             if (_videoLoader != null)
             {
@@ -52,11 +58,14 @@ namespace PicturePlayer
                 if (frame != null)
                 {
                     _pictureBox.Image = frame;
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        public void ShowPreviousFrame()
+        public bool ShowPreviousFrame()
         {
             if (_videoLoader != null)
             {
@@ -65,11 +74,14 @@ namespace PicturePlayer
                 if (frame != null)
                 {
                     _pictureBox.Image = frame;
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        public void ShowFrameByIndex(int index)
+        public bool ShowFrameByIndex(int index)
         {
             if (_videoLoader != null)
             {
@@ -78,6 +90,22 @@ namespace PicturePlayer
                 if (frame != null)
                 {
                     _pictureBox.Image = frame;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        public void SaveAllFrames()
+        {
+            if (_videoLoader != null && _frameSaver != null)
+            {
+                int index = 0;
+
+                while (ShowNextFrame())
+                {
+                    _frameSaver.SaveFrame(_pictureBox.Image as Bitmap, index);
+                    index++;
                 }
             }
         }
@@ -94,5 +122,6 @@ namespace PicturePlayer
                 }
             }
         }
+       
     }
 }

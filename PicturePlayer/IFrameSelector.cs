@@ -2,8 +2,8 @@
 {
     public interface IFrameSelector
     {
-        void ShowFrameByIndex(int index);
-        void ShowNextFrame();
-        void ShowPreviousFrame();
+        bool ShowFrameByIndex(int index);
+        bool ShowNextFrame();
+        bool ShowPreviousFrame();
     }
 }
