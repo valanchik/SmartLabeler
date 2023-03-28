@@ -46,8 +46,9 @@ public class ZoomablePictureBox
 
         double zoomRatio = _zoomFactor / oldZoomFactor;
 
-        _rectangleSelector.SetScaleFactor(_zoomFactor);
+        
         ZoomImage();
+        _rectangleSelector.SetScaleFactor(_zoomFactor);
         SetPositionImage(zoomRatio);
         Debug.WriteLine($"_zoomFactor = {_zoomFactor}");
     }

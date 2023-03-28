@@ -1,6 +1,7 @@
 ﻿
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace PicturePlayer
 {
@@ -18,13 +19,17 @@ namespace PicturePlayer
             }
         }
 
-        public void SaveFrame(Bitmap frame, int index)
+        public async Task SaveFrameAsync(Bitmap frame, int index)
         {
             if (frame != null)
             {
                 string fileName = $"frame_{index}.jpg";
                 string filePath = Path.Combine(_outputFolderPath, fileName);
-                frame.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                await Task.Run(() =>
+                {
+                    frame.Save(filePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                });
             }
         }
     }

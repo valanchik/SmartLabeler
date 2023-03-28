@@ -1,5 +1,6 @@
 ﻿
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PicturePlayer
@@ -11,22 +12,22 @@ namespace PicturePlayer
         private PictureBox _pictureBox;
 
         private IFrameSaver _frameSaver;
+        private AllFramesSaver _allFramesSaver;
 
-        public VideoFileSelector(TextBox textBox, PictureBox pictureBox, Button openVideoButton)
+        public VideoFileSelector(TextBox textBox, PictureBox pictureBox, Button openVideoButton, IFrameSaver frameSaver)
         {
             _textBox = textBox;
             _pictureBox = pictureBox;
             openVideoButton.Click += OpenVideoButton_Click;
+            _frameSaver = frameSaver;
+            _allFramesSaver = new AllFramesSaver(this);
         }
 
         private void OpenVideoButton_Click(object sender, System.EventArgs e)
         {
             OpenVideoFile();
         }
-        public void SetFrameSaver(IFrameSaver frameSaver)
-        {
-            _frameSaver = frameSaver;
-        }
+        
 
         public void OpenVideoFile()
         {
@@ -47,6 +48,11 @@ namespace PicturePlayer
                     UpdatePictureBox();
                 }
             }
+        }
+
+        public int GetFramesCount()
+        {
+            return _videoLoader.FrameCount;
         }
 
         public bool ShowNextFrame()
@@ -96,17 +102,11 @@ namespace PicturePlayer
 
             return false;
         }
-        public void SaveAllFrames()
+        public async Task SaveAllFramesAsync()
         {
-            if (_videoLoader != null && _frameSaver != null)
+            if (_allFramesSaver != null)
             {
-                int index = 0;
-
-                while (ShowNextFrame())
-                {
-                    _frameSaver.SaveFrame(_pictureBox.Image as Bitmap, index);
-                    index++;
-                }
+                await _allFramesSaver.SaveAllFramesAsync();
             }
         }
 
@@ -122,6 +122,41 @@ namespace PicturePlayer
                 }
             }
         }
-       
+
+        public bool IsReady()
+        {
+            return _videoLoader != null && _frameSaver != null;
+        }
+
+        public Image GetCurrentFrame()
+        {
+            return _pictureBox.Image;
+        }
+
+        public IFrameSaver GetFrameSaver()
+        {
+            return _frameSaver;
+        }
+
+        public Form GetCurrentWindow()
+        {
+            return FindParentForm(_pictureBox);
+        }
+        private Form FindParentForm(Control control)
+        {
+            Control parent = control.Parent;
+
+            while (parent != null)
+            {
+                if (parent is Form)
+                {
+                    return (Form)parent;
+                }
+
+                parent = parent.Parent;
+            }
+
+            return null;
+        }
     }
 }

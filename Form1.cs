@@ -19,14 +19,11 @@ namespace ProcScan
         public Form1()
         {
             InitializeComponent();
-            
             _inputRectController = new InputRectController(addRectToFrameBtn);
             _rectangleSelector = new RectangleSelector(pictureBox, label1, _inputRectController);
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
-
-            _videoFileSelector = new VideoFileSelector(videoFilePath, pictureBox, openVideoButton);
             IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
-            _videoFileSelector.SetFrameSaver(frameSaver);
+            _videoFileSelector = new VideoFileSelector(videoFilePath, pictureBox, openVideoButton, frameSaver);
             picturePlayer = new Player(_videoFileSelector, pictureBox);
         }
         private string GetRandomeDir()
@@ -36,9 +33,9 @@ namespace ProcScan
             return  Path.Combine(appDirectory, randomFolderName);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        async private void button1_Click(object sender, EventArgs e)
         {
-            _videoFileSelector.SaveAllFrames();
+            await _videoFileSelector.SaveAllFramesAsync();
 
         }
     }

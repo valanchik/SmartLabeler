@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
+using System.Threading.Tasks;
 
 namespace PicturePlayer
 {
     public interface IFrameSaver
     {
-        void SaveFrame(Bitmap frame, int index);
+        Task SaveFrameAsync(Bitmap frame, int index);
     }
 }

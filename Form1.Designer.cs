@@ -138,6 +138,7 @@ namespace ProcScan
             this.Controls.Add(this.label1);
             this.Controls.Add(this.videoFilePath);
             this.Controls.Add(this.openVideoButton);
+            this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
