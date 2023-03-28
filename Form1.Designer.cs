@@ -156,7 +156,6 @@ namespace ProcScan
         private System.Windows.Forms.TextBox videoFilePath;
         private System.Windows.Forms.Button addRectToFrameBtn;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Panel panel1;
         protected System.Windows.Forms.Panel panel2;
         private DoubleBufferedPictureBox doubleBufferedPictureBox1;
         private DoubleBufferedPanel doubleBufferedPanel1;

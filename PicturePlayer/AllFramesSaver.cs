@@ -1,8 +1,5 @@
-﻿    using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -10,9 +7,9 @@ namespace PicturePlayer
 {
     public class AllFramesSaver
     {
-        private IFrameSelector frameSelector;
+        private IPlayer frameSelector;
 
-        public AllFramesSaver(IFrameSelector frameSelector)
+        public AllFramesSaver(IPlayer frameSelector)
         {
             this.frameSelector = frameSelector;
         }
@@ -33,18 +30,18 @@ namespace PicturePlayer
         {
             if (frameSelector.IsReady())
             {
-                int index = 0;
+                int index = frameSelector.GetCurrentFrameIndex();
 
                 ProgressDialog p = sender as ProgressDialog;
 
                 p.Owner = frameSelector.GetCurrentWindow();
-
+                var countFrame = frameSelector.GetFramesCount();
                 while (frameSelector.ShowNextFrame())
                 {
                     using (Bitmap clonedImage = (Bitmap)frameSelector.GetCurrentFrame().Clone())
                     {
                         await frameSelector.GetFrameSaver().SaveFrameAsync(clonedImage, index);
-                        p.UpdateProgress(index);
+                        p.UpdateProgress(index, countFrame);
                         index++;
                     }
                     if (p.DialogResult == DialogResult.Cancel)

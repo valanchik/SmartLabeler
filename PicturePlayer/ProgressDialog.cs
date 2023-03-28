@@ -12,6 +12,7 @@ namespace PicturePlayer
     {
         private ProgressBar progressBar;
         private Label _progressLabel;
+
         public ProgressDialog()
         {
             InitializeComponents();
@@ -23,26 +24,44 @@ namespace PicturePlayer
             {
                 Text = "Сохранение кадров: 0",
                 AutoSize = true,
-                Location = new Point(20, 20),
             };
 
+            progressBar = new ProgressBar
+            {
+                Location = new Point(4, 40),
+                Name = "progressBar",
+                Size = new System.Drawing.Size(268, 23),
+                TabIndex = 0,
+            };
+
+            // Выровнять _progressLabel по центру progressBar
+            _progressLabel.Location = new Point((progressBar.Width - _progressLabel.Width) / 2, progressBar.Top - _progressLabel.Height - 5);
             this.Controls.Add(_progressLabel);
+            this.Controls.Add(progressBar);
+
             StartPosition = FormStartPosition.CenterScreen;
-            Size = new Size(300, 100);
+            AutoSize = true; // Изменить размер окна в соответствии с размером элементов
+            AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            Padding = new Padding(20); // Отступы вокруг элементов формы
             Text = "Процесс сохранения";
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
             ShowIcon = false;
             ShowInTaskbar = false;
-
-            InitializeComponent();
         }
 
-        public void UpdateProgress(int frameIndex)
+        public void UpdateProgress(int frameIndex, int count)
         {
             _progressLabel.Text = $"Сохранение кадров: {frameIndex}";
+
+            progressBar.Maximum = count;
+            progressBar.Value = frameIndex;
+
+            // Обновить положение _progressLabel
+            _progressLabel.Location = new Point((progressBar.Width - _progressLabel.Width) / 2, progressBar.Top - _progressLabel.Height - 5);
         }
+
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -51,29 +70,6 @@ namespace PicturePlayer
                 DialogResult = DialogResult.Cancel;
             }
         }
-
-        private void InitializeComponent()
-        {
-            this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.SuspendLayout();
-            // 
-            // progressBar
-            // 
-            this.progressBar.Location = new System.Drawing.Point(4, 12);
-            this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(268, 23);
-            this.progressBar.TabIndex = 0;
-            // 
-            // ProgressDialog
-            // 
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(284, 44);
-            this.Controls.Add(this.progressBar);
-            this.DoubleBuffered = true;
-            this.Name = "ProgressDialog";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.ResumeLayout(false);
-
-        }
     }
+
 }

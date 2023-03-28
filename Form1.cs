@@ -2,7 +2,6 @@
 using PicturePlayer;
 using RectSelector;
 using System;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -15,7 +14,7 @@ namespace ProcScan
         private RectangleSelector _rectangleSelector;
         private ZoomablePictureBox _zoomablePictureBox;
         private InputRectController _inputRectController;
-        private Player picturePlayer;
+        private VideoPlayer videoPlayer;
         public Form1()
         {
             InitializeComponent();
@@ -23,8 +22,9 @@ namespace ProcScan
             _rectangleSelector = new RectangleSelector(pictureBox, label1, _inputRectController);
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
             IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
-            _videoFileSelector = new VideoFileSelector(videoFilePath, pictureBox, openVideoButton, frameSaver);
-            picturePlayer = new Player(_videoFileSelector, pictureBox);
+            videoPlayer = new VideoPlayer(pictureBox, frameSaver);
+            _videoFileSelector = new VideoFileSelector(videoFilePath, openVideoButton, videoPlayer);
+            
         }
         private string GetRandomeDir()
         {
@@ -35,7 +35,7 @@ namespace ProcScan
 
         async private void button1_Click(object sender, EventArgs e)
         {
-            await _videoFileSelector.SaveAllFramesAsync();
+            await videoPlayer.SaveAllFramesAsync();
 
         }
     }
