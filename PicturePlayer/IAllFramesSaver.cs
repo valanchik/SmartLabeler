@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PicturePlayer
 {
-    interface IAllFramesSaver
+    public interface IAllFramesSaver
     {
         Task SaveAllFramesAsync();
     }

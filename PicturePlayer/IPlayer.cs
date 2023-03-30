@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace PicturePlayer
 {
-    public interface IPlayer
+    public interface IPlayer: IPlayable, IAllFramesSaver
     {
         bool ShowFrameByIndex(int index);
         bool ShowNextFrame();
@@ -18,5 +18,6 @@ namespace PicturePlayer
         Form GetCurrentWindow();
         int GetFramesCount();
         void SetResource(PlayResource resource);
+        Task SaveAllFramesAsync();
     }
 }

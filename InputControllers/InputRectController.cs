@@ -11,6 +11,7 @@ namespace InputControllers
     {
         private readonly Button _createNewRect;
         public event EventHandler<EventArgs> OnClickNewRect;
+
         public InputRectController(Button creaNewRect)
         {
             _createNewRect = creaNewRect;

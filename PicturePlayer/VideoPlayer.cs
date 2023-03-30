@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace PicturePlayer
 {
-    class VideoPlayer: IPlayer, IAllFramesSaver
+    public class VideoPlayer: Player, IPlayer
     {
        
         private PictureBox _pictureBox;
@@ -18,7 +18,8 @@ namespace PicturePlayer
         private AllFramesSaver _allFramesSaver;
         private PlayResource resource;
 
-        public VideoPlayer(PictureBox pictureBox, IFrameSaver frameSaver)
+        public VideoPlayer(PictureBox pictureBox, IFrameSaver frameSaver): 
+            base(pictureBox)
         {
             _pictureBox = pictureBox;
             _frameSaver = frameSaver;

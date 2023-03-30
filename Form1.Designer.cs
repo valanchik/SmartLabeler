@@ -31,16 +31,23 @@ namespace ProcScan
         {
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openVideoButton = new System.Windows.Forms.Button();
-            this.videoFilePath = new System.Windows.Forms.TextBox();
             this.addRectToFrameBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox = new ProcScan.DoubleBufferedPictureBox();
             this.doubleBufferedPanel1 = new ProcScan.DoubleBufferedPanel();
-            this.button1 = new System.Windows.Forms.Button();
+            this.videoToImagesButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.openFolderButton = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.playBtn = new System.Windows.Forms.Button();
+            this.stopBtn = new System.Windows.Forms.Button();
+            this.pauseBtn = new System.Windows.Forms.Button();
+            this.nextFrameBtn = new System.Windows.Forms.Button();
+            this.prevFrameBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.doubleBufferedPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -51,34 +58,26 @@ namespace ProcScan
             // 
             this.openVideoButton.Location = new System.Drawing.Point(12, 12);
             this.openVideoButton.Name = "openVideoButton";
-            this.openVideoButton.Size = new System.Drawing.Size(75, 23);
+            this.openVideoButton.Size = new System.Drawing.Size(104, 23);
             this.openVideoButton.TabIndex = 1;
-            this.openVideoButton.Text = "Open";
+            this.openVideoButton.Text = "Open video file";
             this.openVideoButton.UseVisualStyleBackColor = true;
-            // 
-            // videoFilePath
-            // 
-            this.videoFilePath.Location = new System.Drawing.Point(94, 11);
-            this.videoFilePath.Name = "videoFilePath";
-            this.videoFilePath.ReadOnly = true;
-            this.videoFilePath.Size = new System.Drawing.Size(366, 23);
-            this.videoFilePath.TabIndex = 2;
             // 
             // addRectToFrameBtn
             // 
             this.addRectToFrameBtn.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.addRectToFrameBtn.Location = new System.Drawing.Point(39, 65);
+            this.addRectToFrameBtn.Location = new System.Drawing.Point(20, 51);
             this.addRectToFrameBtn.Name = "addRectToFrameBtn";
-            this.addRectToFrameBtn.Size = new System.Drawing.Size(75, 23);
+            this.addRectToFrameBtn.Size = new System.Drawing.Size(125, 23);
             this.addRectToFrameBtn.TabIndex = 3;
-            this.addRectToFrameBtn.Text = "button1";
+            this.addRectToFrameBtn.Text = "Add Rectangle";
             this.addRectToFrameBtn.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1092, 448);
+            this.label1.Location = new System.Drawing.Point(1092, 455);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(38, 15);
             this.label1.TabIndex = 4;
@@ -102,41 +101,116 @@ namespace ProcScan
             this.doubleBufferedPanel1.Controls.Add(this.pictureBox);
             this.doubleBufferedPanel1.Location = new System.Drawing.Point(12, 41);
             this.doubleBufferedPanel1.Name = "doubleBufferedPanel1";
-            this.doubleBufferedPanel1.Size = new System.Drawing.Size(1018, 438);
+            this.doubleBufferedPanel1.Size = new System.Drawing.Size(1018, 397);
             this.doubleBufferedPanel1.TabIndex = 6;
             // 
-            // button1
+            // videoToImagesButton
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.button1.Location = new System.Drawing.Point(39, 22);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.videoToImagesButton.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.videoToImagesButton.Location = new System.Drawing.Point(20, 22);
+            this.videoToImagesButton.Name = "videoToImagesButton";
+            this.videoToImagesButton.Size = new System.Drawing.Size(125, 23);
+            this.videoToImagesButton.TabIndex = 7;
+            this.videoToImagesButton.Text = "Conver to images";
+            this.videoToImagesButton.UseVisualStyleBackColor = true;
+            this.videoToImagesButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.button1);
+            this.groupBox1.Controls.Add(this.videoToImagesButton);
             this.groupBox1.Controls.Add(this.addRectToFrameBtn);
             this.groupBox1.Location = new System.Drawing.Point(1036, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(170, 107);
+            this.groupBox1.Size = new System.Drawing.Size(170, 88);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = " Controls ";
+            // 
+            // openFolderButton
+            // 
+            this.openFolderButton.Location = new System.Drawing.Point(122, 12);
+            this.openFolderButton.Name = "openFolderButton";
+            this.openFolderButton.Size = new System.Drawing.Size(104, 23);
+            this.openFolderButton.TabIndex = 9;
+            this.openFolderButton.Text = "Open folder";
+            this.openFolderButton.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.prevFrameBtn);
+            this.panel1.Controls.Add(this.nextFrameBtn);
+            this.panel1.Controls.Add(this.pauseBtn);
+            this.panel1.Controls.Add(this.stopBtn);
+            this.panel1.Controls.Add(this.playBtn);
+            this.panel1.Location = new System.Drawing.Point(12, 444);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1018, 40);
+            this.panel1.TabIndex = 10;
+            // 
+            // playBtn
+            // 
+            this.playBtn.BackgroundImage = global::ProcScan.Properties.Resources.play;
+            this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.playBtn.Location = new System.Drawing.Point(301, 3);
+            this.playBtn.Name = "playBtn";
+            this.playBtn.Size = new System.Drawing.Size(40, 34);
+            this.playBtn.TabIndex = 0;
+            this.playBtn.UseVisualStyleBackColor = true;
+            // 
+            // stopBtn
+            // 
+            this.stopBtn.BackgroundImage = global::ProcScan.Properties.Resources.stop;
+            this.stopBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.stopBtn.Location = new System.Drawing.Point(255, 3);
+            this.stopBtn.Name = "stopBtn";
+            this.stopBtn.Size = new System.Drawing.Size(40, 34);
+            this.stopBtn.TabIndex = 1;
+            this.stopBtn.UseVisualStyleBackColor = true;
+            // 
+            // pauseBtn
+            // 
+            this.pauseBtn.BackgroundImage = global::ProcScan.Properties.Resources.pause;
+            this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pauseBtn.Location = new System.Drawing.Point(347, 3);
+            this.pauseBtn.Name = "pauseBtn";
+            this.pauseBtn.Size = new System.Drawing.Size(40, 34);
+            this.pauseBtn.TabIndex = 2;
+            this.pauseBtn.UseVisualStyleBackColor = true;
+            // 
+            // nextFrameBtn
+            // 
+            this.nextFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.forward;
+            this.nextFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.nextFrameBtn.Location = new System.Drawing.Point(393, 3);
+            this.nextFrameBtn.Name = "nextFrameBtn";
+            this.nextFrameBtn.Size = new System.Drawing.Size(40, 34);
+            this.nextFrameBtn.TabIndex = 3;
+            this.nextFrameBtn.UseVisualStyleBackColor = true;
+            // 
+            // prevFrameBtn
+            // 
+            this.prevFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.back;
+            this.prevFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.prevFrameBtn.Location = new System.Drawing.Point(209, 3);
+            this.prevFrameBtn.Name = "prevFrameBtn";
+            this.prevFrameBtn.Size = new System.Drawing.Size(40, 34);
+            this.prevFrameBtn.TabIndex = 4;
+            this.prevFrameBtn.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1210, 571);
+            this.ClientSize = new System.Drawing.Size(1210, 585);
+            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.openFolderButton);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.doubleBufferedPanel1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.videoFilePath);
             this.Controls.Add(this.openVideoButton);
             this.DoubleBuffered = true;
             this.Name = "Form1";
@@ -145,6 +219,7 @@ namespace ProcScan
             this.doubleBufferedPanel1.ResumeLayout(false);
             this.doubleBufferedPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -153,15 +228,21 @@ namespace ProcScan
         #endregion
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button openVideoButton;
-        private System.Windows.Forms.TextBox videoFilePath;
         private System.Windows.Forms.Button addRectToFrameBtn;
         private System.Windows.Forms.Label label1;
         protected System.Windows.Forms.Panel panel2;
         private DoubleBufferedPictureBox doubleBufferedPictureBox1;
         private DoubleBufferedPanel doubleBufferedPanel1;
         private DoubleBufferedPictureBox pictureBox;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button videoToImagesButton;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button openFolderButton;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button playBtn;
+        private System.Windows.Forms.Button prevFrameBtn;
+        private System.Windows.Forms.Button nextFrameBtn;
+        private System.Windows.Forms.Button pauseBtn;
+        private System.Windows.Forms.Button stopBtn;
     }
 }
 
