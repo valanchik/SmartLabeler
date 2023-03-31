@@ -10,8 +10,8 @@ namespace PicturePlayer
     public class VideoPlayer : Player, IPlayer
     {
         private VideoLoader _videoLoader;
-        private IFrameSaver _frameSaver;
-        private AllFramesSaver _allFramesSaver;
+        private readonly IFrameSaver _frameSaver;
+        private readonly AllFramesSaver _allFramesSaver;
 
         public event Action OnTick;
 
@@ -22,7 +22,7 @@ namespace PicturePlayer
             _allFramesSaver = new AllFramesSaver(this);
             inputsHandler = new PlayerInputHandler(inputs, this);
         }
-        public void SetResource(PlayResource resource)
+        public void SetSource(PlaySource resource)
         {
             _videoLoader = new VideoLoader(resource.Path);
             UpdatePictureBox();
@@ -97,6 +97,7 @@ namespace PicturePlayer
                 if (frame != null)
                 {
                     _pictureBox.Image = frame;
+                    OnTick?.Invoke();
                 }
             }
         }

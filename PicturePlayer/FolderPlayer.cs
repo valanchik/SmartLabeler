@@ -11,10 +11,11 @@ namespace PicturePlayer
     public class FolderPlayer : Player, IPlayer
     {
         public event Action OnTick;
-        private IFrameSaver _frameSaver;
+        private readonly IFrameSaver _frameSaver;
         private string _folderPath;
         private int _currentFrameIndex = 0;
-        private Dictionary<int, Image> _frameCache;
+        private int frameCount;
+        private readonly Dictionary<int, Image> _frameCache;
         public FolderPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver)
             : base(pictureBox)
         {
@@ -23,20 +24,19 @@ namespace PicturePlayer
             inputsHandler = new PlayerInputHandler(inputs, this);
         }
 
-        public void SetResource(PlayResource resource)
+        public void SetSource(PlaySource source)
         {
-            _folderPath = resource.Path;
+            _folderPath = source.Path;
+            if (Directory.Exists(_folderPath))
+            {
+                frameCount = Directory.GetFiles(_folderPath, "frame_*.jpg").Length;
+            }
             UpdatePictureBox();
         }
 
         public int GetFramesCount()
         {
-            if (Directory.Exists(_folderPath))
-            {
-                return Directory.GetFiles(_folderPath, "frame_*.jpg").Length;
-            }
-
-            return -1;
+            return frameCount;
         }
 
         public bool ShowNextFrame()

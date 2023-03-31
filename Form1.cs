@@ -10,12 +10,12 @@ namespace ProcScan
     public partial class Form1 : Form
 
     {
-        private VideoFileSelector _videoFileSelector;
-        private FolderImagesSelector folderImagesSelector;
-        private RectangleSelector _rectangleSelector;
-        private ZoomablePictureBox _zoomablePictureBox;
-        private InputRectController _inputRectController;
-        private IPlayer videoPlayer;
+        private readonly VideoFileSelector _videoFileSelector;
+        private readonly FolderImagesSelector folderImagesSelector;
+        private readonly RectangleSelector _rectangleSelector;
+        private readonly ZoomablePictureBox _zoomablePictureBox;
+        private readonly InputRectController _inputRectController;
+        private readonly IPlayer videoPlayer;
         public Form1()
         {
             InitializeComponent();
@@ -45,7 +45,7 @@ namespace ProcScan
             return Path.Combine(appDirectory, randomFolderName);
         }
 
-        async private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
             await videoPlayer.SaveAllFramesAsync();
 

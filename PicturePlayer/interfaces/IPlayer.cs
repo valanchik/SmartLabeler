@@ -19,6 +19,6 @@ namespace PicturePlayer
         IFrameSaver GetFrameSaver();
         Form GetCurrentWindow();
         int GetFramesCount();
-        void SetResource(PlayResource resource);
+        void SetSource(PlaySource resource);
     }
 }

@@ -10,7 +10,7 @@ namespace RectSelector
         private Rectangle _rect = new Rectangle();
         private const int ResizeHandleSize = 6;
         Rectangle[] handles;
-        private int minSize = ResizeHandleSize * 2;
+        private readonly int minSize = ResizeHandleSize * 2;
 
         public double ScaleFactor { get; set; } = 1.0f;
         private bool _drawHandleStatus = false;
@@ -87,8 +87,8 @@ namespace RectSelector
             startPoint = startPoint.Divide(ScaleFactor);
             endPoint = endPoint.Divide(ScaleFactor);
 
-            int deltaX = (int)((endPoint.X - startPoint.X));
-            int deltaY = (int)((endPoint.Y - startPoint.Y));
+            int deltaX = (endPoint.X - startPoint.X);
+            int deltaY = (endPoint.Y - startPoint.Y);
 
             int minWidth = minSize; // Minimum rectangle width
             int minHeight = minSize; // Minimum rectangle height
@@ -148,8 +148,8 @@ namespace RectSelector
         {
             startPoint = startPoint.Divide(ScaleFactor);
             endPoint = endPoint.Divide(ScaleFactor);
-            int deltaX = (int)((endPoint.X - startPoint.X));
-            int deltaY = (int)((endPoint.Y - startPoint.Y));
+            int deltaX = (endPoint.X - startPoint.X);
+            int deltaY = (endPoint.Y - startPoint.Y);
 
             _rect.X += deltaX;
             _rect.Y += deltaY;

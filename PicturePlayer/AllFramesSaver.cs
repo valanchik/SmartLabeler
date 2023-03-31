@@ -7,24 +7,11 @@ namespace PicturePlayer
 {
     public class AllFramesSaver
     {
-        private IPlayer player;
+        private readonly IPlayer player;
 
         public AllFramesSaver(IPlayer player)
         {
             this.player = player;
-        }
-
-        public async Task SaveAllFramesAsync()
-        {
-            if (player.IsReady())
-            {
-                using (ProgressDialog p = new ProgressDialog())
-                {
-                    p.Shown += ProgressDialog_Shown;
-
-                    p.ShowDialog();
-                }
-            }
         }
         private async void ProgressDialog_Shown(object sender, EventArgs e)
         {
@@ -52,6 +39,19 @@ namespace PicturePlayer
                 p.Close();
             }
         }
+        public async Task SaveAllFramesAsync()
+        {
+            if (player.IsReady())
+            {
+                using (ProgressDialog p = new ProgressDialog())
+                {
+                    p.Shown += ProgressDialog_Shown;
+
+                    p.ShowDialog();
+                }
+            }
+        }
+
 
 
     }

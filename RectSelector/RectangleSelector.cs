@@ -17,13 +17,13 @@ namespace RectSelector
         private int _selectedHandle;
 
         private ResizableRectangle _resizableRect;
-        private List<ResizableRectangle> _resizableRectangles;
+        private readonly List<ResizableRectangle> _resizableRectangles;
         private ResizableRectangle _selectedResizableRect;
         private ResizableRectangleManager _resizableRectangleManager;
-        private DrawingRectangle _drawingRectangle;
+        private readonly DrawingRectangle _drawingRectangle;
         private RectangleMover _rectangleMover;
         private double _scalingFactor = 1F;
-        private InputRectController _inputController;
+        private readonly InputRectController _inputController;
 
         public RectangleSelector(PictureBox pictureBox, Label label, InputRectController inputController)
         {

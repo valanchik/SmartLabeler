@@ -4,7 +4,7 @@ namespace PicturePlayer
 {
     public class VideoFileSelector
     {
-        private IPlayer player;
+        private readonly IPlayer player;
         private string selectedFile;
 
         public VideoFileSelector(Button openVideoButton, IPlayer player)
@@ -23,8 +23,8 @@ namespace PicturePlayer
                 {
                     selectedFile = openFileDialog.FileName;
 
-                    var resource = new PlayResource { Path = openFileDialog.FileName, ResourceType = PLayerResourceType.VideoFile };
-                    player.SetResource(resource);
+                    var resource = new PlaySource { Path = openFileDialog.FileName, ResourceType = PLayerResourceType.VideoFile };
+                    player.SetSource(resource);
                 }
             }
         }

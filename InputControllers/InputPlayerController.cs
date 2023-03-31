@@ -6,7 +6,7 @@ namespace InputControllers
 {
     public class InputPlayerController : IInputPlayerController
     {
-        private Dictionary<InputPlayerControllerType, Control> dict = new Dictionary<InputPlayerControllerType, Control>();
+        private readonly Dictionary<InputPlayerControllerType, Control> dict = new Dictionary<InputPlayerControllerType, Control>();
 
         public void SetElement(InputPlayerControllerType type, Control element)
         {

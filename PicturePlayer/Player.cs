@@ -1,4 +1,5 @@
-﻿using System;
+﻿using InputControllers;
+using System;
 using System.Windows.Forms;
 
 namespace PicturePlayer
@@ -32,8 +33,8 @@ namespace PicturePlayer
             if (!IsPlaying())
             {
                 _playbackTimer.Start();
-                inputsHandler?.TogglePlayAndPause();
             }
+            
         }
 
         public void Pause()
@@ -41,7 +42,6 @@ namespace PicturePlayer
             if (IsPlaying())
             {
                 _playbackTimer.Stop();
-                inputsHandler?.TogglePlayAndPause();
             }
         }
 

@@ -4,7 +4,7 @@ namespace PicturePlayer
 {
     public class FolderImagesSelector
     {
-        private IPlayer player;
+        private readonly IPlayer player;
         private string selectedFolder;
 
         public FolderImagesSelector(Button openFolderButton, IPlayer player)
@@ -22,8 +22,8 @@ namespace PicturePlayer
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
                     selectedFolder = folderBrowserDialog.SelectedPath;
-                    var resource = new PlayResource { Path = selectedFolder, ResourceType = PLayerResourceType.Directory };
-                    player.SetResource(resource);
+                    var resource = new PlaySource { Path = selectedFolder, ResourceType = PLayerResourceType.Directory };
+                    player.SetSource(resource);
                 }
             }
         }

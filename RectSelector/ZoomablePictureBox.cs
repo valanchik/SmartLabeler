@@ -7,14 +7,14 @@ using System.Windows.Forms;
 
 public class ZoomablePictureBox
 {
-    private PictureBox _pictureBox;
+    private readonly PictureBox _pictureBox;
     private double _zoomFactor;
     private const double ZoomIncrement = 0.05f;
     private const double MinZoomFactor = 0.1f;
     private const double MaxZoomFactor = 10.0f;
 
-    private RectangleSelector _rectangleSelector;
-    private PictureBoxMover _pictureBoxMover;
+    private readonly RectangleSelector _rectangleSelector;
+    private readonly PictureBoxMover _pictureBoxMover;
 
     public ZoomablePictureBox(RectangleSelector rectangleSelector)
     {

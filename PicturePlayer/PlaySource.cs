@@ -5,7 +5,7 @@
         VideoFile,
         Directory
     }
-    public class PlayResource
+    public class PlaySource
     {
         public string Path;
         public PLayerResourceType ResourceType;

@@ -176,7 +176,7 @@ namespace ProcScan
             // 
             this.pauseBtn.BackgroundImage = global::ProcScan.Properties.Resources.pause;
             this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pauseBtn.Location = new System.Drawing.Point(3, 3);
+            this.pauseBtn.Location = new System.Drawing.Point(187, 3);
             this.pauseBtn.Name = "pauseBtn";
             this.pauseBtn.Size = new System.Drawing.Size(40, 34);
             this.pauseBtn.TabIndex = 2;

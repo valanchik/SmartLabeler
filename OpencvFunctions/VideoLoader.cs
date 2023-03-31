@@ -5,8 +5,8 @@ using System.Drawing;
 
 public class VideoLoader : IDisposable
 {
-    private VideoCapture _videoCapture;
-    private Mat _frame;
+    private readonly VideoCapture _videoCapture;
+    private readonly Mat _frame;
     private int _currentFrameIndex;
     private bool _disposedValue;
 

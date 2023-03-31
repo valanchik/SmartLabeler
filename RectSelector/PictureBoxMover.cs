@@ -6,8 +6,8 @@ namespace ProcScan
 {
     public class PictureBoxMover
     {
-        private PictureBox _pictureBox;
-        private RectangleSelector _rectangleSelector;
+        private readonly PictureBox _pictureBox;
+        private readonly RectangleSelector _rectangleSelector;
 
         private bool _isMoving;
         private Point _lastMousePosition;
