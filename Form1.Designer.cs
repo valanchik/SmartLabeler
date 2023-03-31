@@ -32,7 +32,7 @@ namespace ProcScan
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.openVideoButton = new System.Windows.Forms.Button();
             this.addRectToFrameBtn = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.rectangleInfo = new System.Windows.Forms.Label();
             this.pictureBox = new ProcScan.DoubleBufferedPictureBox();
             this.doubleBufferedPanel1 = new ProcScan.DoubleBufferedPanel();
             this.videoToImagesButton = new System.Windows.Forms.Button();
@@ -44,6 +44,7 @@ namespace ProcScan
             this.pauseBtn = new System.Windows.Forms.Button();
             this.stopBtn = new System.Windows.Forms.Button();
             this.playBtn = new System.Windows.Forms.Button();
+            this.timelineBar = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.doubleBufferedPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -73,15 +74,15 @@ namespace ProcScan
             this.addRectToFrameBtn.Text = "Add Rectangle";
             this.addRectToFrameBtn.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // rectangleInfo
             // 
-            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1092, 455);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 15);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "label1";
+            this.rectangleInfo.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.rectangleInfo.AutoSize = true;
+            this.rectangleInfo.Location = new System.Drawing.Point(1092, 455);
+            this.rectangleInfo.Name = "rectangleInfo";
+            this.rectangleInfo.Size = new System.Drawing.Size(38, 15);
+            this.rectangleInfo.TabIndex = 4;
+            this.rectangleInfo.Text = "label1";
             // 
             // pictureBox
             // 
@@ -146,7 +147,7 @@ namespace ProcScan
             this.panel1.Controls.Add(this.pauseBtn);
             this.panel1.Controls.Add(this.stopBtn);
             this.panel1.Controls.Add(this.playBtn);
-            this.panel1.Location = new System.Drawing.Point(12, 444);
+            this.panel1.Location = new System.Drawing.Point(12, 470);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1018, 40);
             this.panel1.TabIndex = 10;
@@ -201,16 +202,24 @@ namespace ProcScan
             this.playBtn.TabIndex = 0;
             this.playBtn.UseVisualStyleBackColor = true;
             // 
+            // timelineBar
+            // 
+            this.timelineBar.Location = new System.Drawing.Point(12, 444);
+            this.timelineBar.Name = "timelineBar";
+            this.timelineBar.Size = new System.Drawing.Size(1018, 23);
+            this.timelineBar.TabIndex = 11;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1210, 585);
+            this.Controls.Add(this.timelineBar);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.openFolderButton);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.doubleBufferedPanel1);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.rectangleInfo);
             this.Controls.Add(this.openVideoButton);
             this.DoubleBuffered = true;
             this.Name = "Form1";
@@ -229,7 +238,7 @@ namespace ProcScan
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button openVideoButton;
         private System.Windows.Forms.Button addRectToFrameBtn;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label rectangleInfo;
         protected System.Windows.Forms.Panel panel2;
         private DoubleBufferedPictureBox doubleBufferedPictureBox1;
         private DoubleBufferedPanel doubleBufferedPanel1;
@@ -243,6 +252,7 @@ namespace ProcScan
         private System.Windows.Forms.Button nextFrameBtn;
         private System.Windows.Forms.Button pauseBtn;
         private System.Windows.Forms.Button stopBtn;
+        private System.Windows.Forms.ProgressBar timelineBar;
     }
 }
 

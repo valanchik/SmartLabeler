@@ -20,7 +20,7 @@ namespace ProcScan
         {
             InitializeComponent();
             _inputRectController = new InputRectController(addRectToFrameBtn);
-            _rectangleSelector = new RectangleSelector(pictureBox, label1, _inputRectController);
+            _rectangleSelector = new RectangleSelector(pictureBox, rectangleInfo, _inputRectController);
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
             IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
 
@@ -30,6 +30,7 @@ namespace ProcScan
             playerControls.SetElement(InputPlayerControllerType.Stop, stopBtn);
             playerControls.SetElement(InputPlayerControllerType.NextFrame, nextFrameBtn);
             playerControls.SetElement(InputPlayerControllerType.PrevFrame, prevFrameBtn);
+            playerControls.SetElement(InputPlayerControllerType.TimelineBar, timelineBar);
 
             videoPlayer = new VideoPlayer(pictureBox, playerControls, frameSaver);
             _videoFileSelector = new VideoFileSelector(openVideoButton, videoPlayer);
@@ -41,7 +42,7 @@ namespace ProcScan
         {
             string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
             string randomFolderName = Path.GetRandomFileName();
-            return  Path.Combine(appDirectory, randomFolderName);
+            return Path.Combine(appDirectory, randomFolderName);
         }
 
         async private void button1_Click(object sender, EventArgs e)

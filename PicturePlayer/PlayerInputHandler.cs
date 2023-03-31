@@ -1,5 +1,4 @@
 ﻿using InputControllers;
-using PicturePlayer;
 using System;
 using System.Windows.Forms;
 
@@ -22,6 +21,14 @@ namespace PicturePlayer
             ((Button)inputs.GetElement(InputPlayerControllerType.Stop)).Click += StopClick;
             ((Button)inputs.GetElement(InputPlayerControllerType.NextFrame)).Click += NextFrameClick;
             ((Button)inputs.GetElement(InputPlayerControllerType.PrevFrame)).Click += PrevFrameClick;
+            ConfigureTimelineBar();
+        }
+
+        private void ConfigureTimelineBar()
+        {
+            var timelinebar = (ProgressBar)inputs.GetElement(InputPlayerControllerType.TimelineBar);
+
+
         }
 
         private void ConfigurePlayAndPauseBtn(Control play, Control pause)

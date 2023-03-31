@@ -1,17 +1,16 @@
-﻿using ProcScan.RectSelector;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace RectSelector
 {
-    public class ResizableRectangle: IScalible
+    public class ResizableRectangle : IScalible
     {
         public readonly int Index;
         private Rectangle _rect = new Rectangle();
         private const int ResizeHandleSize = 6;
         Rectangle[] handles;
-        private int minSize = ResizeHandleSize*2;
+        private int minSize = ResizeHandleSize * 2;
 
         public double ScaleFactor { get; set; } = 1.0f;
         private bool _drawHandleStatus = false;
@@ -50,7 +49,7 @@ namespace RectSelector
 
         public int GetSelectedHandle(Point location) // надо базовый
         {
-            
+
             if (handles == null) return -1;
             for (int i = 0; i < handles.Length; i++)
             {
@@ -93,7 +92,7 @@ namespace RectSelector
 
             int minWidth = minSize; // Minimum rectangle width
             int minHeight = minSize; // Minimum rectangle height
-            
+
             int newWidth = _rect.Width;
             int newHeight = _rect.Height;
 
@@ -129,7 +128,7 @@ namespace RectSelector
                 graphics.FillRectangle(brush, GetRectangle());
                 graphics.DrawRectangle(pen, GetRectangle());
 
-                if(_drawHandleStatus) DrawHandles(graphics);
+                if (_drawHandleStatus) DrawHandles(graphics);
             }
         }
         private void DrawHandles(Graphics graphics)
@@ -150,7 +149,7 @@ namespace RectSelector
             startPoint = startPoint.Divide(ScaleFactor);
             endPoint = endPoint.Divide(ScaleFactor);
             int deltaX = (int)((endPoint.X - startPoint.X));
-            int deltaY = (int)((endPoint.Y - startPoint.Y) );
+            int deltaY = (int)((endPoint.Y - startPoint.Y));
 
             _rect.X += deltaX;
             _rect.Y += deltaY;
@@ -177,5 +176,5 @@ namespace RectSelector
 
 }
 
-        
+
 

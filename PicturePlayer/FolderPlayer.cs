@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,21 +10,18 @@ namespace PicturePlayer
 {
     public class FolderPlayer : Player, IPlayer
     {
-        
+        public event Action OnTick;
         private IFrameSaver _frameSaver;
         private string _folderPath;
         private int _currentFrameIndex = 0;
         private Dictionary<int, Image> _frameCache;
-        
-
         public FolderPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver)
-            : base(pictureBox, inputs)
+            : base(pictureBox)
         {
             _frameSaver = frameSaver;
             _frameCache = new Dictionary<int, Image>();
             inputsHandler = new PlayerInputHandler(inputs, this);
         }
-
 
         public void SetResource(PlayResource resource)
         {
@@ -83,7 +78,7 @@ namespace PicturePlayer
 
         public async Task SaveAllFramesAsync()
         {
-            
+
         }
 
         private void UpdatePictureBox()
@@ -105,6 +100,7 @@ namespace PicturePlayer
             if (frame != null)
             {
                 _pictureBox.Image = frame;
+                OnTick?.Invoke();
             }
         }
 

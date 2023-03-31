@@ -1,37 +1,35 @@
 ﻿
 using InputControllers;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PicturePlayer
 {
-    public class VideoPlayer: Player, IPlayer
+    public class VideoPlayer : Player, IPlayer
     {
         private VideoLoader _videoLoader;
         private IFrameSaver _frameSaver;
         private AllFramesSaver _allFramesSaver;
-        private PlayResource resource;
 
-        public VideoPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver): 
-            base(pictureBox, inputs)
+        public event Action OnTick;
+
+        public VideoPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver) :
+            base(pictureBox)
         {
             _frameSaver = frameSaver;
             _allFramesSaver = new AllFramesSaver(this);
+            inputsHandler = new PlayerInputHandler(inputs, this);
         }
         public void SetResource(PlayResource resource)
         {
-            this.resource = resource;
             _videoLoader = new VideoLoader(resource.Path);
             UpdatePictureBox();
         }
         public int GetFramesCount()
         {
-            if (_videoLoader == null) return - 1;
+            if (_videoLoader == null) return -1;
             return _videoLoader.FrameCount;
         }
 

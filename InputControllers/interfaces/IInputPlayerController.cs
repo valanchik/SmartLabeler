@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace InputControllers
 {
-    public interface IInputPlayerController: IEnumerable<KeyValuePair<InputPlayerControllerType, Control>>
+    public interface IInputPlayerController : IEnumerable<KeyValuePair<InputPlayerControllerType, Control>>
     {
         Control GetElement(InputPlayerControllerType type);
         void SetDisableElement(InputPlayerControllerType type);

@@ -6,6 +6,7 @@
         Pause,
         Stop,
         NextFrame,
-        PrevFrame
+        PrevFrame,
+        TimelineBar
     }
 }

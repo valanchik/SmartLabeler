@@ -3,18 +3,17 @@ using InputControllers;
 using ProcScan.RectSelector;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
 namespace RectSelector
 {
 
-    public class RectangleSelector :IScalible
+    public class RectangleSelector : IScalible
     {
         private readonly PictureBox _pictureBox;
         private readonly Label _label;
-        
+
         private int _selectedHandle;
 
         private ResizableRectangle _resizableRect;
@@ -31,7 +30,7 @@ namespace RectSelector
             _pictureBox = pictureBox;
             _inputController = inputController;
             _label = label;
-            
+
             InitializeEventHandlers();
             _resizableRectangles = new List<ResizableRectangle>();
             _rectangleMover = new RectangleMover(_resizableRect);
@@ -48,7 +47,8 @@ namespace RectSelector
             if (scaleFactor > 0)
             {
                 _scalingFactor = scaleFactor;
-                foreach (var rect in _resizableRectangles) {
+                foreach (var rect in _resizableRectangles)
+                {
                     rect.SetScaleFactor(_scalingFactor);
                 }
                 _drawingRectangle.SetScaleFactor(_scalingFactor);
@@ -210,14 +210,16 @@ namespace RectSelector
                 (Cursor cursor, ResizableRectangle selectedRect) = GetCursorForLocation(e.Location);
 
                 _pictureBox.Cursor = cursor;
-                if (selectedRect!=null) {
+                if (selectedRect != null)
+                {
                     selectedRect.SetDrawHandleStatus(true);
-                    var list = _resizableRectangles.FindAll(x=> x.Index!=selectedRect.Index);
+                    var list = _resizableRectangles.FindAll(x => x.Index != selectedRect.Index);
                     foreach (var rect in list)
                     {
                         rect.SetDrawHandleStatus(false);
                     }
-                } else
+                }
+                else
                 {
                     foreach (var rect in _resizableRectangles)
                     {
@@ -277,7 +279,7 @@ namespace RectSelector
 
         private void UpdateLabel()
         {
-            if (_resizableRect==null) return;
+            if (_resizableRect == null) return;
             Rectangle rect = _resizableRect.GetRectangle();
             _label.Text = $"X: {rect.X}, Y: {rect.Y}, Ширина: {rect.Width}, Высота: {rect.Height}";
         }
@@ -289,6 +291,6 @@ namespace RectSelector
             }
             _pictureBox.Invalidate();
         }
-        
+
     }
 }

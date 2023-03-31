@@ -1,5 +1,4 @@
 ﻿using RectSelector;
-using System;
 using System.Drawing;
 
 namespace ProcScan.RectSelector
@@ -49,6 +48,6 @@ namespace ProcScan.RectSelector
             _startPoint = endPoint;
         }
 
-        
+
     }
 }

@@ -1,9 +1,4 @@
-﻿using InputControllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Forms;
 
 namespace PicturePlayer
@@ -15,7 +10,7 @@ namespace PicturePlayer
         protected int _playbackSpeed = 1;
         protected PlayerInputHandler inputsHandler;
 
-        public Player(PictureBox pictureBox, IInputPlayerController inputs)
+        public Player(PictureBox pictureBox)
         {
             _pictureBox = pictureBox;
             _playbackTimer = new Timer();
@@ -37,7 +32,7 @@ namespace PicturePlayer
             if (!IsPlaying())
             {
                 _playbackTimer.Start();
-                inputsHandler.TogglePlayAndPause();
+                inputsHandler?.TogglePlayAndPause();
             }
         }
 
@@ -46,7 +41,7 @@ namespace PicturePlayer
             if (IsPlaying())
             {
                 _playbackTimer.Stop();
-                inputsHandler.TogglePlayAndPause();
+                inputsHandler?.TogglePlayAndPause();
             }
         }
 

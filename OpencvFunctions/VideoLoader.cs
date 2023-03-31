@@ -42,7 +42,7 @@ public class VideoLoader : IDisposable
     {
         if (_videoCapture.Read(_frame))
         {
-            if (_currentFrameIndex == (int)_videoCapture.Get(VideoCaptureProperties.PosFrames)-1)
+            if (_currentFrameIndex == (int)_videoCapture.Get(VideoCaptureProperties.PosFrames) - 1)
             {
                 return BitmapConverter.ToBitmap(_frame);
             }

@@ -1,18 +1,14 @@
 ﻿using RectSelector;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProcScan.RectSelector
 {
-    public class DrawingRectangle: IScalible
+    public class DrawingRectangle : IScalible
     {
         public bool IsDrawing;
         private Point _startPoint;
-        private  ResizableRectangle _resizableRect;
+        private ResizableRectangle _resizableRect;
         private double _scaleFactor = 1F;
 
         public DrawingRectangle()
@@ -20,7 +16,7 @@ namespace ProcScan.RectSelector
 
         }
 
-        public void SetResizebleRectangle(ResizableRectangle  resizableRectangle)
+        public void SetResizebleRectangle(ResizableRectangle resizableRectangle)
         {
             _resizableRect = resizableRectangle;
         }
