@@ -7,16 +7,16 @@ namespace PicturePlayer
 {
     public class AllFramesSaver
     {
-        private IPlayer frameSelector;
+        private IPlayer player;
 
-        public AllFramesSaver(IPlayer frameSelector)
+        public AllFramesSaver(IPlayer player)
         {
-            this.frameSelector = frameSelector;
+            this.player = player;
         }
 
         public async Task SaveAllFramesAsync()
         {
-            if (frameSelector.IsReady())
+            if (player.IsReady())
             {
                 using (ProgressDialog p = new ProgressDialog())
                 {
@@ -28,19 +28,19 @@ namespace PicturePlayer
         }
         private async void ProgressDialog_Shown(object sender, EventArgs e)
         {
-            if (frameSelector.IsReady())
+            if (player.IsReady())
             {
-                int index = frameSelector.GetCurrentFrameIndex();
+                int index = player.GetCurrentFrameIndex();
 
                 ProgressDialog p = sender as ProgressDialog;
 
-                p.Owner = frameSelector.GetCurrentWindow();
-                var countFrame = frameSelector.GetFramesCount();
-                while (frameSelector.ShowNextFrame())
+                p.Owner = player.GetCurrentWindow();
+                var countFrame = player.GetFramesCount();
+                while (player.ShowNextFrame())
                 {
-                    using (Bitmap clonedImage = (Bitmap)frameSelector.GetCurrentFrame().Clone())
+                    using (Bitmap clonedImage = (Bitmap)player.GetCurrentFrame().Clone())
                     {
-                        await frameSelector.GetFrameSaver().SaveFrameAsync(clonedImage, index);
+                        await player.GetFrameSaver().SaveFrameAsync(clonedImage, index);
                         p.UpdateProgress(index, countFrame);
                         index++;
                     }

@@ -12,17 +12,16 @@ namespace PicturePlayer
 {
     public class FolderPlayer : Player, IPlayer
     {
-        private PictureBox _pictureBox;
+        
         private IFrameSaver _frameSaver;
         private string _folderPath;
         private int _currentFrameIndex = 0;
         private Dictionary<int, Image> _frameCache;
-        private PlayerInputHandler inputsHandler;
+        
 
         public FolderPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver)
-            : base(pictureBox)
+            : base(pictureBox, inputs)
         {
-            _pictureBox = pictureBox;
             _frameSaver = frameSaver;
             _frameCache = new Dictionary<int, Image>();
             inputsHandler = new PlayerInputHandler(inputs, this);

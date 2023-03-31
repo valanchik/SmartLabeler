@@ -39,11 +39,11 @@ namespace ProcScan
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.openFolderButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.playBtn = new System.Windows.Forms.Button();
-            this.stopBtn = new System.Windows.Forms.Button();
-            this.pauseBtn = new System.Windows.Forms.Button();
-            this.nextFrameBtn = new System.Windows.Forms.Button();
             this.prevFrameBtn = new System.Windows.Forms.Button();
+            this.nextFrameBtn = new System.Windows.Forms.Button();
+            this.pauseBtn = new System.Windows.Forms.Button();
+            this.stopBtn = new System.Windows.Forms.Button();
+            this.playBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.doubleBufferedPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -151,55 +151,55 @@ namespace ProcScan
             this.panel1.Size = new System.Drawing.Size(1018, 40);
             this.panel1.TabIndex = 10;
             // 
-            // playBtn
+            // prevFrameBtn
             // 
-            this.playBtn.BackgroundImage = global::ProcScan.Properties.Resources.play;
-            this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.playBtn.Location = new System.Drawing.Point(301, 3);
-            this.playBtn.Name = "playBtn";
-            this.playBtn.Size = new System.Drawing.Size(40, 34);
-            this.playBtn.TabIndex = 0;
-            this.playBtn.UseVisualStyleBackColor = true;
-            // 
-            // stopBtn
-            // 
-            this.stopBtn.BackgroundImage = global::ProcScan.Properties.Resources.stop;
-            this.stopBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.stopBtn.Location = new System.Drawing.Point(255, 3);
-            this.stopBtn.Name = "stopBtn";
-            this.stopBtn.Size = new System.Drawing.Size(40, 34);
-            this.stopBtn.TabIndex = 1;
-            this.stopBtn.UseVisualStyleBackColor = true;
-            // 
-            // pauseBtn
-            // 
-            this.pauseBtn.BackgroundImage = global::ProcScan.Properties.Resources.pause;
-            this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pauseBtn.Location = new System.Drawing.Point(347, 3);
-            this.pauseBtn.Name = "pauseBtn";
-            this.pauseBtn.Size = new System.Drawing.Size(40, 34);
-            this.pauseBtn.TabIndex = 2;
-            this.pauseBtn.UseVisualStyleBackColor = true;
+            this.prevFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.back;
+            this.prevFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.prevFrameBtn.Location = new System.Drawing.Point(49, 3);
+            this.prevFrameBtn.Name = "prevFrameBtn";
+            this.prevFrameBtn.Size = new System.Drawing.Size(40, 34);
+            this.prevFrameBtn.TabIndex = 4;
+            this.prevFrameBtn.UseVisualStyleBackColor = true;
             // 
             // nextFrameBtn
             // 
             this.nextFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.forward;
             this.nextFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.nextFrameBtn.Location = new System.Drawing.Point(393, 3);
+            this.nextFrameBtn.Location = new System.Drawing.Point(141, 3);
             this.nextFrameBtn.Name = "nextFrameBtn";
             this.nextFrameBtn.Size = new System.Drawing.Size(40, 34);
             this.nextFrameBtn.TabIndex = 3;
             this.nextFrameBtn.UseVisualStyleBackColor = true;
             // 
-            // prevFrameBtn
+            // pauseBtn
             // 
-            this.prevFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.back;
-            this.prevFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.prevFrameBtn.Location = new System.Drawing.Point(209, 3);
-            this.prevFrameBtn.Name = "prevFrameBtn";
-            this.prevFrameBtn.Size = new System.Drawing.Size(40, 34);
-            this.prevFrameBtn.TabIndex = 4;
-            this.prevFrameBtn.UseVisualStyleBackColor = true;
+            this.pauseBtn.BackgroundImage = global::ProcScan.Properties.Resources.pause;
+            this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pauseBtn.Location = new System.Drawing.Point(3, 3);
+            this.pauseBtn.Name = "pauseBtn";
+            this.pauseBtn.Size = new System.Drawing.Size(40, 34);
+            this.pauseBtn.TabIndex = 2;
+            this.pauseBtn.UseVisualStyleBackColor = true;
+            // 
+            // stopBtn
+            // 
+            this.stopBtn.BackgroundImage = global::ProcScan.Properties.Resources.stop;
+            this.stopBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.stopBtn.Location = new System.Drawing.Point(95, 3);
+            this.stopBtn.Name = "stopBtn";
+            this.stopBtn.Size = new System.Drawing.Size(40, 34);
+            this.stopBtn.TabIndex = 1;
+            this.stopBtn.UseVisualStyleBackColor = true;
+            // 
+            // playBtn
+            // 
+            this.playBtn.BackgroundImage = global::ProcScan.Properties.Resources.play;
+            this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.playBtn.Location = new System.Drawing.Point(3, 3);
+            this.playBtn.Name = "playBtn";
+            this.playBtn.Size = new System.Drawing.Size(40, 34);
+            this.playBtn.TabIndex = 0;
+            this.playBtn.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

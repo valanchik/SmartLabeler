@@ -1,4 +1,5 @@
 ﻿
+using InputControllers;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,17 +12,14 @@ namespace PicturePlayer
 {
     public class VideoPlayer: Player, IPlayer
     {
-       
-        private PictureBox _pictureBox;
         private VideoLoader _videoLoader;
         private IFrameSaver _frameSaver;
         private AllFramesSaver _allFramesSaver;
         private PlayResource resource;
 
-        public VideoPlayer(PictureBox pictureBox, IFrameSaver frameSaver): 
-            base(pictureBox)
+        public VideoPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver): 
+            base(pictureBox, inputs)
         {
-            _pictureBox = pictureBox;
             _frameSaver = frameSaver;
             _allFramesSaver = new AllFramesSaver(this);
         }

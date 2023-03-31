@@ -24,9 +24,6 @@ namespace ProcScan
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
             IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
 
-            videoPlayer = new VideoPlayer(pictureBox, frameSaver);
-            _videoFileSelector = new VideoFileSelector(openVideoButton, videoPlayer);
-
             IInputPlayerController playerControls = new InputPlayerController();
             playerControls.SetElement(InputPlayerControllerType.Play, playBtn);
             playerControls.SetElement(InputPlayerControllerType.Pause, pauseBtn);
@@ -34,10 +31,11 @@ namespace ProcScan
             playerControls.SetElement(InputPlayerControllerType.NextFrame, nextFrameBtn);
             playerControls.SetElement(InputPlayerControllerType.PrevFrame, prevFrameBtn);
 
+            videoPlayer = new VideoPlayer(pictureBox, playerControls, frameSaver);
+            _videoFileSelector = new VideoFileSelector(openVideoButton, videoPlayer);
 
             IPlayer folderPlayer = new FolderPlayer(pictureBox, playerControls, frameSaver);
             folderImagesSelector = new FolderImagesSelector(openFolderButton, folderPlayer);
-            
         }
         private string GetRandomeDir()
         {
