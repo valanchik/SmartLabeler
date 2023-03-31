@@ -4,16 +4,20 @@ using System.Windows.Forms;
 
 namespace PicturePlayer
 {
-    public class Player : IPlayable
+    public abstract class Player : IPlayable
     {
+        public event Action OnTick;
+        public event Action OnPause;
+        public event Action OnEndPlaying;
+
         protected PictureBox _pictureBox;
         protected Timer _playbackTimer;
         protected int _playbackSpeed = 1;
         protected PlayerInputHandler inputsHandler;
 
-        public Player(PictureBox pictureBox)
+        public Player(IInputPlayerController inputs)
         {
-            _pictureBox = pictureBox;
+            _pictureBox = (PictureBox)inputs.GetElement(InputPlayerControllerType.PictureBox);
             _playbackTimer = new Timer();
             _playbackTimer.Tick += OnPlaybackTimerTick;
         }
@@ -49,8 +53,20 @@ namespace PicturePlayer
         {
             return _playbackTimer.Enabled;
         }
+        public abstract bool ShowNextFrame();
+        
+        protected virtual void OnPlaybackTimerTick(object sender, EventArgs e) {
+            if (!ShowNextFrame())
+            {
+                Pause();
+                RaiseOnEndPlaying();
+            }
+        }
 
-        protected virtual void OnPlaybackTimerTick(object sender, EventArgs e) { }
+        public void RaiseOnTick() => OnTick?.Invoke();
+        public void RaiseOnPause() => OnPause?.Invoke();
+        public void RaiseOnEndPlaying() => OnEndPlaying?.Invoke();
+
     }
 
 }

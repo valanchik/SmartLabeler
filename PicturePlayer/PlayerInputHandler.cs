@@ -22,6 +22,13 @@ namespace PicturePlayer
             ((Button)inputs.GetElement(InputPlayerControllerType.NextFrame)).Click += NextFrameClick;
             ((Button)inputs.GetElement(InputPlayerControllerType.PrevFrame)).Click += PrevFrameClick;
             new TimelineHandler((ProgressBar)inputs.GetElement(InputPlayerControllerType.TimelineBar), player);
+
+            this.player.OnEndPlaying += Player_OnEndPlaying;
+        }
+
+        private void Player_OnEndPlaying()
+        {
+            SetPlayAndPauseStatus(false);
         }
 
         private void ConfigurePlayAndPauseBtn(Control play, Control pause)

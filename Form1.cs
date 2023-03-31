@@ -19,10 +19,10 @@ namespace ProcScan
         public Form1()
         {
             InitializeComponent();
+
             _inputRectController = new InputRectController(addRectToFrameBtn);
             _rectangleSelector = new RectangleSelector(pictureBox, rectangleInfo, _inputRectController);
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
-            IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
 
             IInputPlayerController playerControls = new InputPlayerController();
             playerControls.SetElement(InputPlayerControllerType.Play, playBtn);
@@ -31,19 +31,13 @@ namespace ProcScan
             playerControls.SetElement(InputPlayerControllerType.NextFrame, nextFrameBtn);
             playerControls.SetElement(InputPlayerControllerType.PrevFrame, prevFrameBtn);
             playerControls.SetElement(InputPlayerControllerType.TimelineBar, timelineBar);
+            playerControls.SetElement(InputPlayerControllerType.PictureBox, pictureBox);
+            playerControls.SetElement(InputPlayerControllerType.OpenVideo, openVideoButton);
+            playerControls.SetElement(InputPlayerControllerType.OpenImageFolder, openFolderButton);
 
-            videoPlayer = new VideoPlayer(pictureBox, playerControls, frameSaver);
-            _videoFileSelector = new VideoFileSelector(openVideoButton, videoPlayer);
-
-            IPlayer folderPlayer = new FolderPlayer(pictureBox, playerControls, frameSaver);
-            folderImagesSelector = new FolderImagesSelector(openFolderButton, folderPlayer);
+            new ProjecManager(playerControls);
         }
-        private string GetRandomeDir()
-        {
-            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string randomFolderName = Path.GetRandomFileName();
-            return Path.Combine(appDirectory, randomFolderName);
-        }
+        
 
         private async void button1_Click(object sender, EventArgs e)
         {

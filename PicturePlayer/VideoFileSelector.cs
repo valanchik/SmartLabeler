@@ -1,16 +1,17 @@
-﻿using System.Windows.Forms;
+﻿using InputControllers;
+using System.Windows.Forms;
 
 namespace PicturePlayer
 {
-    public class VideoFileSelector
+    public class VideoFileSelector: SelectorBase
     {
-        private readonly IPlayer player;
-        private string selectedFile;
+        private readonly IInputPlayerController playerControls;
 
-        public VideoFileSelector(Button openVideoButton, IPlayer player)
+        public VideoFileSelector(Button openVideoButton, IInputPlayerController playerControls)
         {
             this.player = player;
             openVideoButton.Click += OpenVideoButton_Click;
+            this.playerControls = playerControls;
         }
 
         private void OpenVideoButton_Click(object sender, System.EventArgs e)
@@ -21,12 +22,17 @@ namespace PicturePlayer
 
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    selectedFile = openFileDialog.FileName;
-
-                    var resource = new PlaySource { Path = openFileDialog.FileName, ResourceType = PLayerResourceType.VideoFile };
-                    player.SetSource(resource);
+                    selectedPath = openFileDialog.FileName;
+                    
+                    InitPlayer(new PlaySource { Path = openFileDialog.FileName});
                 }
             }
+        }
+        private void InitPlayer(PlaySource source)
+        {
+            IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
+            var player = new VideoPlayer(playerControls, frameSaver);
+            player.SetSource(source);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace PicturePlayer
 {
     public interface IPlayer : IPlayable, IAllFramesSaver
     {
-        event Action OnTick;
+        
 
         bool ShowFrameByIndex(int index);
         bool ShowNextFrame();

@@ -196,6 +196,7 @@ namespace ProcScan
             // 
             this.playBtn.BackgroundImage = global::ProcScan.Properties.Resources.play;
             this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.playBtn.CausesValidation = false;
             this.playBtn.Location = new System.Drawing.Point(3, 3);
             this.playBtn.Name = "playBtn";
             this.playBtn.Size = new System.Drawing.Size(40, 34);

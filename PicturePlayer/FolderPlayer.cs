@@ -10,14 +10,13 @@ namespace PicturePlayer
 {
     public class FolderPlayer : Player, IPlayer
     {
-        public event Action OnTick;
         private readonly IFrameSaver _frameSaver;
         private string _folderPath;
         private int _currentFrameIndex = 0;
         private int frameCount;
         private readonly Dictionary<int, Image> _frameCache;
-        public FolderPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver)
-            : base(pictureBox)
+        public FolderPlayer(IInputPlayerController inputs, IFrameSaver frameSaver)
+            : base(inputs)
         {
             _frameSaver = frameSaver;
             _frameCache = new Dictionary<int, Image>();
@@ -31,6 +30,7 @@ namespace PicturePlayer
             {
                 frameCount = Directory.GetFiles(_folderPath, "frame_*.jpg").Length;
             }
+            _frameCache.Clear();
             UpdatePictureBox();
         }
 
@@ -39,7 +39,7 @@ namespace PicturePlayer
             return frameCount;
         }
 
-        public bool ShowNextFrame()
+        public override bool ShowNextFrame()
         {
             int nextFrameIndex = _currentFrameIndex + 1;
             if (nextFrameIndex < GetFramesCount())
@@ -100,7 +100,7 @@ namespace PicturePlayer
             if (frame != null)
             {
                 _pictureBox.Image = frame;
-                OnTick?.Invoke();
+                RaiseOnTick();
             }
         }
 
@@ -149,13 +149,6 @@ namespace PicturePlayer
         public int GetCurrentFrameIndex()
         {
             return _currentFrameIndex;
-        }
-        protected override void OnPlaybackTimerTick(object sender, EventArgs e)
-        {
-            if (!ShowNextFrame())
-            {
-                Pause();
-            }
         }
 
     }

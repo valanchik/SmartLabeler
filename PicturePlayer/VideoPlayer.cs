@@ -12,11 +12,10 @@ namespace PicturePlayer
         private VideoLoader _videoLoader;
         private readonly IFrameSaver _frameSaver;
         private readonly AllFramesSaver _allFramesSaver;
+        private int frameCount;
 
-        public event Action OnTick;
-
-        public VideoPlayer(PictureBox pictureBox, IInputPlayerController inputs, IFrameSaver frameSaver) :
-            base(pictureBox)
+        public VideoPlayer(IInputPlayerController inputs, IFrameSaver frameSaver) :
+            base(inputs)
         {
             _frameSaver = frameSaver;
             _allFramesSaver = new AllFramesSaver(this);
@@ -25,15 +24,15 @@ namespace PicturePlayer
         public void SetSource(PlaySource resource)
         {
             _videoLoader = new VideoLoader(resource.Path);
+            frameCount = _videoLoader.FrameCount;
             UpdatePictureBox();
         }
         public int GetFramesCount()
         {
-            if (_videoLoader == null) return -1;
-            return _videoLoader.FrameCount;
+            return frameCount;
         }
 
-        public bool ShowNextFrame()
+        public override bool ShowNextFrame()
         {
             if (_videoLoader != null)
             {
@@ -97,7 +96,7 @@ namespace PicturePlayer
                 if (frame != null)
                 {
                     _pictureBox.Image = frame;
-                    OnTick?.Invoke();
+                    RaiseOnTick();
                 }
             }
         }
@@ -142,6 +141,5 @@ namespace PicturePlayer
         {
             return _videoLoader.CurrentFrameIndex;
         }
-
     }
 }

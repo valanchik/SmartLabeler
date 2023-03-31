@@ -11,11 +11,12 @@ namespace PicturePlayer
         {
             this.timeLineBar = timeLineBar;
             this.player = player;
-
+            
             timeLineBar.MouseClick += TimeLineBar_MouseClick;
             player.OnTick += Player_OnTick;
             UpdateProgressBar();
         }
+
 
         private void TimeLineBar_MouseClick(object sender, MouseEventArgs e)
         {
@@ -30,6 +31,7 @@ namespace PicturePlayer
 
         private void Player_OnTick()
         {
+            timeLineBar.Maximum = player.GetFramesCount() - 1;
             UpdateProgressBar();
         }
 

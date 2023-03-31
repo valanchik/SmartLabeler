@@ -7,6 +7,9 @@
         Stop,
         NextFrame,
         PrevFrame,
-        TimelineBar
+        TimelineBar,
+        PictureBox,
+        OpenVideo,
+        OpenImageFolder
     }
 }
