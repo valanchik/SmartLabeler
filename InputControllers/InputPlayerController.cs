@@ -6,13 +6,13 @@ namespace InputControllers
 {
     public class InputPlayerController : IInputPlayerController
     {
-        private readonly Dictionary<InputPlayerControllerType, Control> dict = new Dictionary<InputPlayerControllerType, Control>();
+        private readonly Dictionary<InputsPlayerControllerType, Control> dict = new Dictionary<InputsPlayerControllerType, Control>();
 
-        public void SetElement(InputPlayerControllerType type, Control element)
+        public void SetElement(InputsPlayerControllerType type, Control element)
         {
             dict[type] = element;
         }
-        public Control GetElement(InputPlayerControllerType type)
+        public Control GetElement(InputsPlayerControllerType type)
         {
             if (dict.TryGetValue(type, out Control element))
             {
@@ -22,22 +22,22 @@ namespace InputControllers
             return null;
         }
 
-        public void SetDisableElement(InputPlayerControllerType type)
+        public void SetDisableElement(InputsPlayerControllerType type)
         {
             SetElementStatus(type, false);
         }
-        public void SetEnableElement(InputPlayerControllerType type)
+        public void SetEnableElement(InputsPlayerControllerType type)
         {
             SetElementStatus(type, true);
         }
-        protected void SetElementStatus(InputPlayerControllerType type, bool status)
+        protected void SetElementStatus(InputsPlayerControllerType type, bool status)
         {
             if (dict.TryGetValue(type, out Control element))
             {
                 element.Enabled = status;
             }
         }
-        public IEnumerator<KeyValuePair<InputPlayerControllerType, Control>> GetEnumerator()
+        public IEnumerator<KeyValuePair<InputsPlayerControllerType, Control>> GetEnumerator()
         {
             return dict.GetEnumerator();
         }

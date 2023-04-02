@@ -7,79 +7,90 @@ using System.Windows.Forms;
 
 namespace PicturePlayer
 {
-    public class VideoPlayer : Player, IPlayer
+    public class VideoPlayer : Player
     {
         private VideoLoader _videoLoader;
-        private readonly IFrameSaver _frameSaver;
-        private readonly AllFramesSaver _allFramesSaver;
-        private int frameCount;
+        private  IFrameSaver _frameSaver;
+        private  AllFramesSaver _allFramesSaver;
 
-        public VideoPlayer(IInputPlayerController inputs, IFrameSaver frameSaver) :
+        public VideoPlayer(PlayerInputHandler inputs, IFrameSaver frameSaver) :
             base(inputs)
         {
             _frameSaver = frameSaver;
             _allFramesSaver = new AllFramesSaver(this);
-            inputsHandler = new PlayerInputHandler(inputs, this);
         }
-        public void SetSource(PlaySource resource)
+        public override IPlayer SetSource(PlaySource resource)
         {
-            _videoLoader = new VideoLoader(resource.Path);
+            currentPath = resource.Path;
+            return this;
+        }
+
+        public override void Init()
+        {
+            _videoLoader = new VideoLoader(currentPath);
             frameCount = _videoLoader.FrameCount;
-            UpdatePictureBox();
+            if (UpdatePictureBox())
+            {
+                RaiseOnReady();
+            }
+            inputsHandler.Init();
         }
-        public int GetFramesCount()
+        public override bool IsReady()
         {
-            return frameCount;
+            return _videoLoader != null && _frameSaver != null;
+        }
+
+        public override Bitmap GetCurrentFrame()
+        {
+            if (_videoLoader != null)
+            {
+                return _videoLoader.GetCurrentFrame();
+            }
+            return null;
         }
 
         public override bool ShowNextFrame()
         {
-            if (_videoLoader != null)
+            if (_videoLoader != null )
             {
-                Bitmap frame = _videoLoader.GetNextFrame();
-
-                if (frame != null)
+                var nextFrame = _videoLoader.CurrentFrameIndex + 1;
+                if (nextFrame<frameCount)
                 {
-                    _pictureBox.Image = frame;
-                    return true;
+                    _videoLoader.CurrentFrameIndex = nextFrame;
+                    SetCurrentFrameIndex(nextFrame);
+                    return UpdatePictureBox();
                 }
             }
-
             return false;
         }
-
-        public bool ShowPreviousFrame()
+        public override bool ShowFrameByIndex(int index)
+        {
+            if (_videoLoader != null && IndexIsValid(index))
+            {
+                _videoLoader.CurrentFrameIndex = index;
+                SetCurrentFrameIndex(index);
+                return UpdatePictureBox();
+            }
+            return false;
+        }
+        public override bool ShowPreviousFrame()
         {
             if (_videoLoader != null)
             {
-                Bitmap frame = _videoLoader.GetPreviousFrame();
-
-                if (frame != null)
+                var prevFrame = _videoLoader.CurrentFrameIndex - 1;
+                if (IndexIsValid(prevFrame))
                 {
-                    _pictureBox.Image = frame;
-                    return true;
+                    _videoLoader.CurrentFrameIndex = prevFrame;
+                    SetCurrentFrameIndex(prevFrame);
+                    return UpdatePictureBox();
+                    
                 }
             }
-
             return false;
         }
 
-        public bool ShowFrameByIndex(int index)
-        {
-            if (_videoLoader != null)
-            {
-                Bitmap frame = _videoLoader.GetFrameByIndex(index);
 
-                if (frame != null)
-                {
-                    _pictureBox.Image = frame;
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        public async Task SaveAllFramesAsync()
+        public override async Task SaveAllFramesAsync()
         {
             if (_allFramesSaver != null)
             {
@@ -87,59 +98,10 @@ namespace PicturePlayer
             }
         }
 
-        private void UpdatePictureBox()
-        {
-            if (_videoLoader != null)
-            {
-                Bitmap frame = _videoLoader.GetCurrentFrame();
-
-                if (frame != null)
-                {
-                    _pictureBox.Image = frame;
-                    RaiseOnTick();
-                }
-            }
-        }
-
-        public bool IsReady()
-        {
-            return _videoLoader != null && _frameSaver != null;
-        }
-
-        public Image GetCurrentFrame()
-        {
-            return _pictureBox.Image;
-        }
-
-        public IFrameSaver GetFrameSaver()
+        public override IFrameSaver GetFrameSaver()
         {
             return _frameSaver;
         }
 
-        public Form GetCurrentWindow()
-        {
-            return FindParentForm(_pictureBox);
-        }
-        private Form FindParentForm(Control control)
-        {
-            Control parent = control.Parent;
-
-            while (parent != null)
-            {
-                if (parent is Form)
-                {
-                    return (Form)parent;
-                }
-
-                parent = parent.Parent;
-            }
-
-            return null;
-        }
-
-        public int GetCurrentFrameIndex()
-        {
-            return _videoLoader.CurrentFrameIndex;
-        }
     }
 }

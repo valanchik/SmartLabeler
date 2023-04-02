@@ -4,24 +4,46 @@ namespace PicturePlayer
 {
     public class TimelineHandler
     {
-        private readonly ProgressBar timeLineBar;
-        private readonly IPlayer player;
+        private  ProgressBar timeLineBar;
+        private  IPlayer player;
 
         public TimelineHandler(ProgressBar timeLineBar, IPlayer player)
         {
             this.timeLineBar = timeLineBar;
             this.player = player;
-            
-            timeLineBar.MouseClick += TimeLineBar_MouseClick;
-            player.OnTick += Player_OnTick;
+            Hendling();
             UpdateProgressBar();
         }
 
+        private void Hendling()
+        {
+            player.OnReady += Player_OnReady;
+            timeLineBar.MouseClick -= TimeLineBar_MouseClick;
+            timeLineBar.MouseClick += TimeLineBar_MouseClick;
+            player.OnTick -= Player_OnTick;
+            player.OnTick += Player_OnTick;
+        }
 
+        private void Player_OnReady()
+        {
+            UpdateMaximum();
+        }
+
+        public void UpdateMaximum()
+        {
+            var count = player.GetFramesCount();
+            if (count>0)
+            {
+                timeLineBar.Maximum = count-1;
+            }
+            
+        }
         private void TimeLineBar_MouseClick(object sender, MouseEventArgs e)
         {
             if (player.GetFramesCount() <= 0) return;
-
+            
+            player.Pause();
+            
             timeLineBar.Maximum = player.GetFramesCount() - 1;
             float relativeX = (float)e.X / timeLineBar.Width;
             int frameIndex = (int)(relativeX * timeLineBar.Maximum);
@@ -31,7 +53,6 @@ namespace PicturePlayer
 
         private void Player_OnTick()
         {
-            timeLineBar.Maximum = player.GetFramesCount() - 1;
             UpdateProgressBar();
         }
 

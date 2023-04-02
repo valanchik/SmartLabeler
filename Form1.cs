@@ -10,12 +10,9 @@ namespace ProcScan
     public partial class Form1 : Form
 
     {
-        private readonly VideoFileSelector _videoFileSelector;
-        private readonly FolderImagesSelector folderImagesSelector;
         private readonly RectangleSelector _rectangleSelector;
         private readonly ZoomablePictureBox _zoomablePictureBox;
         private readonly InputRectController _inputRectController;
-        private readonly IPlayer videoPlayer;
         public Form1()
         {
             InitializeComponent();
@@ -25,15 +22,16 @@ namespace ProcScan
             _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
 
             IInputPlayerController playerControls = new InputPlayerController();
-            playerControls.SetElement(InputPlayerControllerType.Play, playBtn);
-            playerControls.SetElement(InputPlayerControllerType.Pause, pauseBtn);
-            playerControls.SetElement(InputPlayerControllerType.Stop, stopBtn);
-            playerControls.SetElement(InputPlayerControllerType.NextFrame, nextFrameBtn);
-            playerControls.SetElement(InputPlayerControllerType.PrevFrame, prevFrameBtn);
-            playerControls.SetElement(InputPlayerControllerType.TimelineBar, timelineBar);
-            playerControls.SetElement(InputPlayerControllerType.PictureBox, pictureBox);
-            playerControls.SetElement(InputPlayerControllerType.OpenVideo, openVideoButton);
-            playerControls.SetElement(InputPlayerControllerType.OpenImageFolder, openFolderButton);
+            playerControls.SetElement(InputsPlayerControllerType.Play, playBtn);
+            playerControls.SetElement(InputsPlayerControllerType.Pause, pauseBtn);
+            playerControls.SetElement(InputsPlayerControllerType.Stop, stopBtn);
+            playerControls.SetElement(InputsPlayerControllerType.NextFrame, nextFrameBtn);
+            playerControls.SetElement(InputsPlayerControllerType.PrevFrame, prevFrameBtn);
+            playerControls.SetElement(InputsPlayerControllerType.TimelineBar, timelineBar);
+            playerControls.SetElement(InputsPlayerControllerType.PictureBox, pictureBox);
+            playerControls.SetElement(InputsPlayerControllerType.OpenVideo, openVideoButton);
+            playerControls.SetElement(InputsPlayerControllerType.OpenImageFolder, openFolderButton);
+            playerControls.SetElement(InputsPlayerControllerType.SpeedPlayback, speedPlayback);
 
             new ProjecManager(playerControls);
         }
@@ -41,7 +39,6 @@ namespace ProcScan
 
         private async void button1_Click(object sender, EventArgs e)
         {
-            await videoPlayer.SaveAllFramesAsync();
 
         }
     }

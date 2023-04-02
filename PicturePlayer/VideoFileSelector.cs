@@ -7,11 +7,9 @@ namespace PicturePlayer
     {
         private readonly IInputPlayerController playerControls;
 
-        public VideoFileSelector(Button openVideoButton, IInputPlayerController playerControls)
+        public VideoFileSelector(Button openVideoButton)
         {
-            this.player = player;
             openVideoButton.Click += OpenVideoButton_Click;
-            this.playerControls = playerControls;
         }
 
         private void OpenVideoButton_Click(object sender, System.EventArgs e)
@@ -23,16 +21,11 @@ namespace PicturePlayer
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     selectedPath = openFileDialog.FileName;
-                    
-                    InitPlayer(new PlaySource { Path = openFileDialog.FileName});
+
+                    RaiseOnSource(new PlaySource { Path = openFileDialog.FileName, Type = PlaySourceType.Video});
                 }
             }
         }
-        private void InitPlayer(PlaySource source)
-        {
-            IFrameSaver frameSaver = new FrameSaver(GetRandomeDir());
-            var player = new VideoPlayer(playerControls, frameSaver);
-            player.SetSource(source);
-        }
+        
     }
 }

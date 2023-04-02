@@ -14,17 +14,48 @@ namespace ProcScan
     {
         private VideoFileSelector videoFileSelector;
         private FolderImagesSelector folderImagesSelector;
-        public ProjecManager(IInputPlayerController playerControls)
+        private IPlayer player;
+        private PlayerInputHandler  inputsHandler;
+        private IInputPlayerController inputs;
+        public ProjecManager(IInputPlayerController inputs)
         {
+            this.inputs = inputs;
+            inputsHandler = new PlayerInputHandler(inputs);
             videoFileSelector = new VideoFileSelector(
-                (Button)playerControls.GetElement(InputPlayerControllerType.OpenVideo),
-                playerControls
+                (Button)inputs.GetElement(InputsPlayerControllerType.OpenVideo)
             );
+            videoFileSelector.OnSource += OnSource;
             folderImagesSelector = new FolderImagesSelector(
-                (Button)playerControls.GetElement(InputPlayerControllerType.OpenImageFolder),
-                playerControls
+                (Button)inputs.GetElement(InputsPlayerControllerType.OpenImageFolder)
             );
+            folderImagesSelector.OnSource += OnSource;
         }
-        
+
+        private void OnSource(PlaySource source)
+        {
+            player?.Pause();
+            switch (source.Type)
+            {
+                case PlaySourceType.Video:
+                    player = new VideoPlayer(inputsHandler, new FrameSaver(GetRandomeDir()));
+                    break;
+                case PlaySourceType.FolderImages:
+                    player = new FolderPlayer(inputsHandler, new FrameSaver(GetRandomeDir()));
+                    break;
+            }
+            if (player!=null)
+            {
+                player.SetSource(source);
+                player.Init();
+                player.PlaybackSpeed = (int)((NumericUpDown)inputs.GetElement(InputsPlayerControllerType.SpeedPlayback)).Value;
+            }
+        }
+
+        private  string GetRandomeDir()
+        {
+            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string randomFolderName = Path.GetRandomFileName();
+            return Path.Combine(appDirectory, randomFolderName);
+        }
     }
 }

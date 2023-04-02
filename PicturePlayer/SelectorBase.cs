@@ -5,13 +5,13 @@ namespace PicturePlayer
 {
     public class SelectorBase
     {
-        protected IPlayer player;
-        protected string selectedPath;
-        protected string GetRandomeDir()
+        public string selectedPath;
+        public delegate void SourceDelegate(PlaySource source);
+        public event SourceDelegate OnSource;
+        
+        protected void RaiseOnSource(PlaySource source)
         {
-            string appDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string randomFolderName = Path.GetRandomFileName();
-            return Path.Combine(appDirectory, randomFolderName);
+            OnSource?.Invoke(source);
         }
     }
 }

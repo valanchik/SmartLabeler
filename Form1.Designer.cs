@@ -39,6 +39,8 @@ namespace ProcScan
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.openFolderButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.speedPlayback = new System.Windows.Forms.NumericUpDown();
             this.prevFrameBtn = new System.Windows.Forms.Button();
             this.nextFrameBtn = new System.Windows.Forms.Button();
             this.pauseBtn = new System.Windows.Forms.Button();
@@ -49,6 +51,7 @@ namespace ProcScan
             this.doubleBufferedPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.speedPlayback)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -142,6 +145,8 @@ namespace ProcScan
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.speedPlayback);
             this.panel1.Controls.Add(this.prevFrameBtn);
             this.panel1.Controls.Add(this.nextFrameBtn);
             this.panel1.Controls.Add(this.pauseBtn);
@@ -152,10 +157,42 @@ namespace ProcScan
             this.panel1.Size = new System.Drawing.Size(1018, 40);
             this.panel1.TabIndex = 10;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.Location = new System.Drawing.Point(927, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 20);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "кадр/сек.";
+            // 
+            // speedPlayback
+            // 
+            this.speedPlayback.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.speedPlayback.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.speedPlayback.Location = new System.Drawing.Point(874, 7);
+            this.speedPlayback.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.speedPlayback.Name = "speedPlayback";
+            this.speedPlayback.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.speedPlayback.Size = new System.Drawing.Size(47, 26);
+            this.speedPlayback.TabIndex = 5;
+            this.speedPlayback.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.speedPlayback.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            // 
             // prevFrameBtn
             // 
             this.prevFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.back;
             this.prevFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.prevFrameBtn.CausesValidation = false;
             this.prevFrameBtn.Location = new System.Drawing.Point(49, 3);
             this.prevFrameBtn.Name = "prevFrameBtn";
             this.prevFrameBtn.Size = new System.Drawing.Size(40, 34);
@@ -166,6 +203,7 @@ namespace ProcScan
             // 
             this.nextFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.forward;
             this.nextFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.nextFrameBtn.CausesValidation = false;
             this.nextFrameBtn.Location = new System.Drawing.Point(141, 3);
             this.nextFrameBtn.Name = "nextFrameBtn";
             this.nextFrameBtn.Size = new System.Drawing.Size(40, 34);
@@ -176,6 +214,7 @@ namespace ProcScan
             // 
             this.pauseBtn.BackgroundImage = global::ProcScan.Properties.Resources.pause;
             this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.pauseBtn.CausesValidation = false;
             this.pauseBtn.Location = new System.Drawing.Point(187, 3);
             this.pauseBtn.Name = "pauseBtn";
             this.pauseBtn.Size = new System.Drawing.Size(40, 34);
@@ -186,6 +225,7 @@ namespace ProcScan
             // 
             this.stopBtn.BackgroundImage = global::ProcScan.Properties.Resources.stop;
             this.stopBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.stopBtn.CausesValidation = false;
             this.stopBtn.Location = new System.Drawing.Point(95, 3);
             this.stopBtn.Name = "stopBtn";
             this.stopBtn.Size = new System.Drawing.Size(40, 34);
@@ -230,6 +270,8 @@ namespace ProcScan
             this.doubleBufferedPanel1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.speedPlayback)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,6 +296,8 @@ namespace ProcScan
         private System.Windows.Forms.Button pauseBtn;
         private System.Windows.Forms.Button stopBtn;
         private System.Windows.Forms.ProgressBar timelineBar;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown speedPlayback;
     }
 }
 
