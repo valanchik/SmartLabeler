@@ -1,7 +1,13 @@
-﻿namespace InputControllers
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
+
+namespace InputControllers
 {
-    public interface IInputController
+    public interface IInputController : IEnumerable<KeyValuePair<InputsControllerType, Control>>
     {
-        void SetActiveElement(InputElementType type, bool status);
+        Control GetElement(InputsControllerType type);
+        void SetDisableElement(InputsControllerType type);
+        void SetElement(InputsControllerType type, Control element);
+        void SetEnableElement(InputsControllerType type);
     }
 }

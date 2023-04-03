@@ -1,6 +1,6 @@
 ﻿namespace InputControllers
 {
-    public enum InputsPlayerControllerType
+    public enum InputsControllerType
     {
         Play,
         Pause,
@@ -11,6 +11,8 @@
         SpeedPlayback,
         PictureBox,
         OpenVideo,
-        OpenImageFolder
+        OpenImageFolder,
+        RectangleInfo,
+        AddRectToFrameBtn
     }
 }

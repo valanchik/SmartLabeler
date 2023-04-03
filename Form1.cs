@@ -16,24 +16,26 @@ namespace ProcScan
         public Form1()
         {
             InitializeComponent();
+            IInputController rectController = new InputController();
+            rectController.SetElement(InputsControllerType.RectangleInfo, rectangleInfo);
+            rectController.SetElement(InputsControllerType.AddRectToFrameBtn, addRectToFrameBtn);
+            /*//_inputRectController = new InputRectController(addRectToFrameBtn);
+            _rectangleSelector = new RectangleSelector(pictureBox, rectController);
+            _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);*/
 
-            _inputRectController = new InputRectController(addRectToFrameBtn);
-            _rectangleSelector = new RectangleSelector(pictureBox, rectangleInfo, _inputRectController);
-            _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);
+            IInputController playerControls = new InputController();
+            playerControls.SetElement(InputsControllerType.Play, playBtn);
+            playerControls.SetElement(InputsControllerType.Pause, pauseBtn);
+            playerControls.SetElement(InputsControllerType.Stop, stopBtn);
+            playerControls.SetElement(InputsControllerType.NextFrame, nextFrameBtn);
+            playerControls.SetElement(InputsControllerType.PrevFrame, prevFrameBtn);
+            playerControls.SetElement(InputsControllerType.TimelineBar, timelineBar);
+            playerControls.SetElement(InputsControllerType.PictureBox, pictureBox);
+            playerControls.SetElement(InputsControllerType.OpenVideo, openVideoButton);
+            playerControls.SetElement(InputsControllerType.OpenImageFolder, openFolderButton);
+            playerControls.SetElement(InputsControllerType.SpeedPlayback, speedPlayback);
 
-            IInputPlayerController playerControls = new InputPlayerController();
-            playerControls.SetElement(InputsPlayerControllerType.Play, playBtn);
-            playerControls.SetElement(InputsPlayerControllerType.Pause, pauseBtn);
-            playerControls.SetElement(InputsPlayerControllerType.Stop, stopBtn);
-            playerControls.SetElement(InputsPlayerControllerType.NextFrame, nextFrameBtn);
-            playerControls.SetElement(InputsPlayerControllerType.PrevFrame, prevFrameBtn);
-            playerControls.SetElement(InputsPlayerControllerType.TimelineBar, timelineBar);
-            playerControls.SetElement(InputsPlayerControllerType.PictureBox, pictureBox);
-            playerControls.SetElement(InputsPlayerControllerType.OpenVideo, openVideoButton);
-            playerControls.SetElement(InputsPlayerControllerType.OpenImageFolder, openFolderButton);
-            playerControls.SetElement(InputsPlayerControllerType.SpeedPlayback, speedPlayback);
-
-            new ProjecManager(playerControls);
+            new ProjecManager(playerControls, rectController);
         }
         
 

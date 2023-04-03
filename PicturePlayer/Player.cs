@@ -13,6 +13,7 @@ namespace PicturePlayer
         public event Action OnTick;
         public event Action OnPlay;
         public event Action OnPause;
+        public event Action OnStop;
         public event Action OnReady;
         public event Action OnEndPlaying;
 
@@ -23,14 +24,14 @@ namespace PicturePlayer
         protected int frameCount;
         protected int currentFrameIndex = 0;
         protected string currentPath;
-        private IInputPlayerController inputs;
+        private IInputController inputs;
 
         public Player(PlayerInputHandler inputsHandler)
         {
             this.inputsHandler = inputsHandler;
             this.inputs = inputsHandler.GetInputsController();
             this.inputsHandler.SetPlayer(this);
-            _pictureBox = (PictureBox)inputs.GetElement(InputsPlayerControllerType.PictureBox);
+            _pictureBox = (PictureBox)inputs.GetElement(InputsControllerType.PictureBox);
             _playbackTimer = new Timer();
             _playbackTimer.Tick += OnPlaybackTimerTick;
             
@@ -64,7 +65,15 @@ namespace PicturePlayer
                 OnPause?.Invoke();
             }
         }
-
+        public void Stop()
+        {
+            if (IsPlaying())
+            {
+                _playbackTimer.Stop();
+                ShowFrameByIndex(0);
+                OnStop?.Invoke();
+            }
+        }
         public bool IsPlaying()
         {
             return _playbackTimer.Enabled;
@@ -185,6 +194,10 @@ namespace PicturePlayer
             return frameCount;
         }
 
+        public PictureBox GetScreen()
+        {
+            return _pictureBox;
+        }
     }
 
 }

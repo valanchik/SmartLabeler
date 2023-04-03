@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace InputControllers
 {
-    public class InputRectController : IInputController
+    public class InputRectController : IInputControllerOld
     {
         private readonly Button _createNewRect;
         public event EventHandler<EventArgs> OnClickNewRect;

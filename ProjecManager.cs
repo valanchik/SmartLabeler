@@ -16,24 +16,28 @@ namespace ProcScan
         private FolderImagesSelector folderImagesSelector;
         private IPlayer player;
         private PlayerInputHandler  inputsHandler;
-        private IInputPlayerController inputs;
-        public ProjecManager(IInputPlayerController inputs)
+        private IInputController inputs;
+        private RectangleManagerForPlayer rectangleManagerForPlayer;
+        public ProjecManager(IInputController playerInputs, IInputController rectInputs)
         {
-            this.inputs = inputs;
-            inputsHandler = new PlayerInputHandler(inputs);
+            rectangleManagerForPlayer = new RectangleManagerForPlayer(rectInputs);
+            this.inputs = playerInputs;
+            inputsHandler = new PlayerInputHandler(playerInputs);
             videoFileSelector = new VideoFileSelector(
-                (Button)inputs.GetElement(InputsPlayerControllerType.OpenVideo)
+                (Button)playerInputs.GetElement(InputsControllerType.OpenVideo)
             );
             videoFileSelector.OnSource += OnSource;
             folderImagesSelector = new FolderImagesSelector(
-                (Button)inputs.GetElement(InputsPlayerControllerType.OpenImageFolder)
+                (Button)playerInputs.GetElement(InputsControllerType.OpenImageFolder)
             );
             folderImagesSelector.OnSource += OnSource;
         }
 
         private void OnSource(PlaySource source)
         {
+
             player?.Pause();
+            
             switch (source.Type)
             {
                 case PlaySourceType.Video:
@@ -45,9 +49,11 @@ namespace ProcScan
             }
             if (player!=null)
             {
+                rectangleManagerForPlayer.SetPlayer(player);
                 player.SetSource(source);
                 player.Init();
-                player.PlaybackSpeed = (int)((NumericUpDown)inputs.GetElement(InputsPlayerControllerType.SpeedPlayback)).Value;
+                player.PlaybackSpeed = (int)((NumericUpDown)inputs.GetElement(InputsControllerType.SpeedPlayback)).Value;
+                
             }
         }
 

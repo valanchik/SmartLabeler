@@ -12,24 +12,27 @@ namespace RectSelector
     public class RectangleSelector : IScalible
     {
         private readonly PictureBox _pictureBox;
-        private readonly Label _label;
+        private readonly Label rectInfo;
+        private Button addRectToFrame;
 
         private int _selectedHandle;
 
         private ResizableRectangle _resizableRect;
-        private readonly List<ResizableRectangle> _resizableRectangles;
+        private List<ResizableRectangle> _resizableRectangles;
         private ResizableRectangle _selectedResizableRect;
         private ResizableRectangleManager _resizableRectangleManager;
         private readonly DrawingRectangle _drawingRectangle;
         private RectangleMover _rectangleMover;
         private double _scalingFactor = 1F;
-        private readonly InputRectController _inputController;
+        private readonly IInputController _inputController;
 
-        public RectangleSelector(PictureBox pictureBox, Label label, InputRectController inputController)
+        public RectangleSelector(PictureBox pictureBox, IInputController inputController)
         {
             _pictureBox = pictureBox;
             _inputController = inputController;
-            _label = label;
+            rectInfo = (Label)inputController.GetElement(InputsControllerType.RectangleInfo);
+            addRectToFrame = ((Button)_inputController.GetElement(InputsControllerType.AddRectToFrameBtn));
+
 
             InitializeEventHandlers();
             _resizableRectangles = new List<ResizableRectangle>();
@@ -37,6 +40,11 @@ namespace RectSelector
             _resizableRectangleManager = new ResizableRectangleManager();
             _drawingRectangle = new DrawingRectangle();
             ResetState();
+        }
+
+        public void SetRectangles(List<ResizableRectangle> list)
+        {
+            _resizableRectangles = list;
         }
         public PictureBox GetPictureBox()
         {
@@ -69,7 +77,7 @@ namespace RectSelector
             _pictureBox.MouseDown += PictureBox_MouseDown;
             _pictureBox.MouseUp += PictureBox_MouseUp;
             _pictureBox.Paint += PictureBox_Paint;
-            _inputController.OnClickNewRect += ClickOnNewRect;
+            addRectToFrame.Click += ClickOnNewRect;
         }
 
         private void ResetState()
@@ -86,7 +94,7 @@ namespace RectSelector
             _resizableRectangles.Add(_resizableRect);
             _drawingRectangle.SetResizebleRectangle(_resizableRect);
             _drawingRectangle.IsDrawing = true;
-            _inputController.SetActiveElement(InputElementType.CreateNewRectBtn, false);
+            addRectToFrame.Enabled = false;
         }
 
         private void PictureBox_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -187,7 +195,7 @@ namespace RectSelector
         }
         private void PictureBox_MouseMove(object sender, MouseEventArgs e)
         {
-            _label.Text = $"{e.Location}";
+            rectInfo.Text = $"{e.Location}";
 
             if (_drawingRectangle.IsDrawing && e.Button == MouseButtons.Left)
             {
@@ -273,7 +281,7 @@ namespace RectSelector
         private void StopDrawing()
         {
             _drawingRectangle.StopDrawing();
-            _inputController.SetActiveElement(InputElementType.CreateNewRectBtn, true);
+            addRectToFrame.Enabled = true;
             UpdateAllRectangles();
         }
 
@@ -281,7 +289,7 @@ namespace RectSelector
         {
             if (_resizableRect == null) return;
             Rectangle rect = _resizableRect.GetRectangle();
-            _label.Text = $"X: {rect.X}, Y: {rect.Y}, Ширина: {rect.Width}, Высота: {rect.Height}";
+            rectInfo.Text = $"X: {rect.X}, Y: {rect.Y}, Ширина: {rect.Width}, Высота: {rect.Height}";
         }
         public void UpdateAllRectangles()
         {

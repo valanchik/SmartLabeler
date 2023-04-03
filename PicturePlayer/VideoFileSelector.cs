@@ -5,7 +5,7 @@ namespace PicturePlayer
 {
     public class VideoFileSelector: SelectorBase
     {
-        private readonly IInputPlayerController playerControls;
+        private readonly IInputController playerControls;
 
         public VideoFileSelector(Button openVideoButton)
         {

@@ -8,14 +8,14 @@ namespace PicturePlayer
     public class PlayerInputHandler
     {
         private  IPlayer player;
-        private  IInputPlayerController inputs;
+        private  IInputController inputs;
         private TimelineHandler timelineHandler;
-        public PlayerInputHandler(IInputPlayerController inputs)
+        public PlayerInputHandler(IInputController inputs)
         {
             this.inputs = inputs;
             ConfigurePlayAndPauseBtn(
-                inputs.GetElement(InputsPlayerControllerType.Play),
-                inputs.GetElement(InputsPlayerControllerType.Pause)
+                inputs.GetElement(InputsControllerType.Play),
+                inputs.GetElement(InputsControllerType.Pause)
             );
             Init();
         }
@@ -24,21 +24,21 @@ namespace PicturePlayer
         {
             
 
-            ((Button)inputs.GetElement(InputsPlayerControllerType.Play)).Click -= PlayClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.Pause)).Click -= PauseClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.Stop)).Click -= StopClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.NextFrame)).Click -= NextFrameClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.PrevFrame)).Click -= PrevFrameClick;
+            ((Button)inputs.GetElement(InputsControllerType.Play)).Click -= PlayClick;
+            ((Button)inputs.GetElement(InputsControllerType.Pause)).Click -= PauseClick;
+            ((Button)inputs.GetElement(InputsControllerType.Stop)).Click -= StopClick;
+            ((Button)inputs.GetElement(InputsControllerType.NextFrame)).Click -= NextFrameClick;
+            ((Button)inputs.GetElement(InputsControllerType.PrevFrame)).Click -= PrevFrameClick;
 
-            ((Button)inputs.GetElement(InputsPlayerControllerType.Play)).Click += PlayClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.Pause)).Click += PauseClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.Stop)).Click += StopClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.NextFrame)).Click += NextFrameClick;
-            ((Button)inputs.GetElement(InputsPlayerControllerType.PrevFrame)).Click += PrevFrameClick;
-            ((NumericUpDown)inputs.GetElement(InputsPlayerControllerType.SpeedPlayback)).ValueChanged += PlayerInputHandler_ValueChanged; ;
+            ((Button)inputs.GetElement(InputsControllerType.Play)).Click += PlayClick;
+            ((Button)inputs.GetElement(InputsControllerType.Pause)).Click += PauseClick;
+            ((Button)inputs.GetElement(InputsControllerType.Stop)).Click += StopClick;
+            ((Button)inputs.GetElement(InputsControllerType.NextFrame)).Click += NextFrameClick;
+            ((Button)inputs.GetElement(InputsControllerType.PrevFrame)).Click += PrevFrameClick;
+            ((NumericUpDown)inputs.GetElement(InputsControllerType.SpeedPlayback)).ValueChanged += PlayerInputHandler_ValueChanged; ;
             
         }
-        public IInputPlayerController GetInputsController()
+        public IInputController GetInputsController()
         {
             return inputs;
         }
@@ -51,7 +51,7 @@ namespace PicturePlayer
             player.OnPause += Player_OnPause;
             player.OnEndPlaying -= Player_OnEndPlaying;
             player.OnEndPlaying += Player_OnEndPlaying;
-            timelineHandler = new TimelineHandler((ProgressBar)inputs.GetElement(InputsPlayerControllerType.TimelineBar), player);
+            timelineHandler = new TimelineHandler((ProgressBar)inputs.GetElement(InputsControllerType.TimelineBar), player);
         }
 
         private void Player_OnPlay()
@@ -85,8 +85,8 @@ namespace PicturePlayer
         
         private void SetPlayingStatus(bool playing)
         {
-            var play = inputs.GetElement(InputsPlayerControllerType.Play);
-            var pause = inputs.GetElement(InputsPlayerControllerType.Pause);
+            var play = inputs.GetElement(InputsControllerType.Play);
+            var pause = inputs.GetElement(InputsControllerType.Pause);
             play.Visible = !playing;
             pause.Visible = playing;
         }
@@ -103,8 +103,7 @@ namespace PicturePlayer
 
         private void StopClick(object sender, EventArgs e)
         {
-            player?.Pause();
-            player?.ShowFrameByIndex(0);
+            player?.Stop();
         }
 
         private void PauseClick(object sender, EventArgs e)

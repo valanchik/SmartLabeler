@@ -5,7 +5,7 @@ namespace PicturePlayer
 {
     public class FolderImagesSelector : SelectorBase
     {
-        private readonly IInputPlayerController playerControls;
+        private readonly IInputController playerControls;
         public FolderImagesSelector(Button openFolderButton)
         {
             openFolderButton.Click += OpenImagesFolder_Click;

@@ -4,15 +4,15 @@ using System.Windows.Forms;
 
 namespace InputControllers
 {
-    public class InputPlayerController : IInputPlayerController
+    public class InputController : IInputController
     {
-        private readonly Dictionary<InputsPlayerControllerType, Control> dict = new Dictionary<InputsPlayerControllerType, Control>();
+        private readonly Dictionary<InputsControllerType, Control> dict = new Dictionary<InputsControllerType, Control>();
 
-        public void SetElement(InputsPlayerControllerType type, Control element)
+        public void SetElement(InputsControllerType type, Control element)
         {
             dict[type] = element;
         }
-        public Control GetElement(InputsPlayerControllerType type)
+        public Control GetElement(InputsControllerType type)
         {
             if (dict.TryGetValue(type, out Control element))
             {
@@ -22,22 +22,22 @@ namespace InputControllers
             return null;
         }
 
-        public void SetDisableElement(InputsPlayerControllerType type)
+        public void SetDisableElement(InputsControllerType type)
         {
             SetElementStatus(type, false);
         }
-        public void SetEnableElement(InputsPlayerControllerType type)
+        public void SetEnableElement(InputsControllerType type)
         {
             SetElementStatus(type, true);
         }
-        protected void SetElementStatus(InputsPlayerControllerType type, bool status)
+        protected void SetElementStatus(InputsControllerType type, bool status)
         {
             if (dict.TryGetValue(type, out Control element))
             {
                 element.Enabled = status;
             }
         }
-        public IEnumerator<KeyValuePair<InputsPlayerControllerType, Control>> GetEnumerator()
+        public IEnumerator<KeyValuePair<InputsControllerType, Control>> GetEnumerator()
         {
             return dict.GetEnumerator();
         }

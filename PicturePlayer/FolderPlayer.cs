@@ -52,6 +52,7 @@ namespace PicturePlayer
                 string framePath = Path.Combine(currentPath, $"frame_{currentFrameIndex}.jpg");
                 if (File.Exists(framePath))
                 {
+                    //todo разобраться с этой дичью
                     using (var image = Image.FromFile(framePath))
                     using (frame = new Bitmap(image))
                     {
