@@ -19,9 +19,6 @@ namespace ProcScan
             IInputController rectController = new InputController();
             rectController.SetElement(InputsControllerType.RectangleInfo, rectangleInfo);
             rectController.SetElement(InputsControllerType.AddRectToFrameBtn, addRectToFrameBtn);
-            /*//_inputRectController = new InputRectController(addRectToFrameBtn);
-            _rectangleSelector = new RectangleSelector(pictureBox, rectController);
-            _zoomablePictureBox = new ZoomablePictureBox(_rectangleSelector);*/
 
             IInputController playerControls = new InputController();
             playerControls.SetElement(InputsControllerType.Play, playBtn);

@@ -47,6 +47,7 @@ namespace ProcScan
             this.stopBtn = new System.Windows.Forms.Button();
             this.playBtn = new System.Windows.Forms.Button();
             this.timelineBar = new System.Windows.Forms.ProgressBar();
+            this.currentFrameInfo = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.doubleBufferedPanel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -145,6 +146,7 @@ namespace ProcScan
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.currentFrameInfo);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.speedPlayback);
             this.panel1.Controls.Add(this.prevFrameBtn);
@@ -250,6 +252,15 @@ namespace ProcScan
             this.timelineBar.Size = new System.Drawing.Size(1018, 23);
             this.timelineBar.TabIndex = 11;
             // 
+            // currentFrameInfo
+            // 
+            this.currentFrameInfo.AutoSize = true;
+            this.currentFrameInfo.Location = new System.Drawing.Point(368, 14);
+            this.currentFrameInfo.Name = "currentFrameInfo";
+            this.currentFrameInfo.Size = new System.Drawing.Size(30, 15);
+            this.currentFrameInfo.TabIndex = 7;
+            this.currentFrameInfo.Text = "0 / 0";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -298,6 +309,7 @@ namespace ProcScan
         private System.Windows.Forms.ProgressBar timelineBar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown speedPlayback;
+        private System.Windows.Forms.Label currentFrameInfo;
     }
 }
 

@@ -44,6 +44,7 @@ namespace RectSelector
 
         public void SetRectangles(List<ResizableRectangle> list)
         {
+            foreach (var rect in list) rect.ScaleFactor = _scalingFactor;
             _resizableRectangles = list;
         }
         public PictureBox GetPictureBox()
@@ -89,7 +90,7 @@ namespace RectSelector
 
         private void ClickOnNewRect(object sender, EventArgs e)
         {
-            _resizableRect = new ResizableRectangle(_resizableRectangles.Count);
+            _resizableRect = new ResizableRectangle(_resizableRectangles.Count, _pictureBox);
             _resizableRect.SetScaleFactor(_scalingFactor);
             _resizableRectangles.Add(_resizableRect);
             _drawingRectangle.SetResizebleRectangle(_resizableRect);
@@ -171,6 +172,7 @@ namespace RectSelector
         private void StartMoving(Point location)
         {
             _rectangleMover = new RectangleMover(_selectedResizableRect);
+            //KeepRectangleInsidePictureBox()
             _rectangleMover.StartMoving(location);
         }
 
@@ -299,6 +301,27 @@ namespace RectSelector
             }
             _pictureBox.Invalidate();
         }
+        private void KeepRectangleInsidePictureBox(ref Rectangle rect)
+        {
+            int maxWidth = _pictureBox.Width;
+            int maxHeight = _pictureBox.Height;
 
+            if (rect.X < 0)
+            {
+                rect.X = 0;
+            }
+            if (rect.Y < 0)
+            {
+                rect.Y = 0;
+            }
+            if (rect.X + rect.Width > maxWidth)
+            {
+                rect.Width = maxWidth - rect.X;
+            }
+            if (rect.Y + rect.Height > maxHeight)
+            {
+                rect.Height = maxHeight - rect.Y;
+            }
+        }
     }
 }

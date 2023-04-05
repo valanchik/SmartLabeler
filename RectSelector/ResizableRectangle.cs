@@ -6,6 +6,7 @@ namespace RectSelector
 {
     public class ResizableRectangle : IScalible
     {
+        private string _title = "None";
         public readonly int Index;
         private Rectangle _rect = new Rectangle();
         private const int ResizeHandleSize = 6;
@@ -14,11 +15,51 @@ namespace RectSelector
 
         public double ScaleFactor { get; set; } = 1.0f;
         private bool _drawHandleStatus = false;
+        private PictureBox pictureBox;
 
-        public ResizableRectangle(int index)
+        public ResizableRectangle(int index, PictureBox pictureBox)
         {
+            this.pictureBox = pictureBox;
             Index = index;
             UpdateHandles();
+        }
+        public void SetTitle(string title)
+        {
+            _title = title;
+        }
+        private void DrawTitle(Graphics graphics)
+        {
+            if (!string.IsNullOrEmpty(_title))
+            {
+                using (Font font = new Font("Arial", 12))
+                using (Brush brush = new SolidBrush(Color.White))
+                {
+                    SizeF titleSize = graphics.MeasureString(_title, font);
+                    float availableWidth = _rect.Width * (float)ScaleFactor;
+                    string titleToDraw = _title;
+                    if (titleSize.Width > availableWidth)
+                    {
+                        titleToDraw = TruncateTitle(_title, font, availableWidth, graphics);
+                    }
+                    float x = (_rect.Left * (float)ScaleFactor) + (availableWidth - titleSize.Width) / 2;
+                    float y = (_rect.Top * (float)ScaleFactor) - titleSize.Height;
+                    graphics.DrawString(titleToDraw, font, brush, x, y);
+                }
+            }
+        }
+
+        private string TruncateTitle(string title, Font font, float availableWidth, Graphics graphics)
+        {
+            string ellipsis = "...";
+            float ellipsisWidth = graphics.MeasureString(ellipsis, font).Width;
+            int titleLength = title.Length;
+
+            while (titleLength > 0 && graphics.MeasureString(title.Substring(0, titleLength) + ellipsis, font).Width > availableWidth)
+            {
+                titleLength--;
+            }
+
+            return title.Substring(0, titleLength) + ellipsis;
         }
         public void SetScaleFactor(double scaleFactor)
         {
@@ -34,8 +75,15 @@ namespace RectSelector
         }
         public void SetLocationAndSize(Point location, Size size)
         {
-            _rect.Location = location;
-            _rect.Size = size;
+            var newrect = new Rectangle(location, size);
+            if (newrect.IsRectangleInsidePictureBox(pictureBox, ScaleFactor))
+            {
+                _rect = newrect;
+            } else
+            {
+                _rect = newrect.ClipRectangleToPictureBox(pictureBox, ScaleFactor);
+            }
+           
         }
 
         public Rectangle GetRectangle()
@@ -47,7 +95,7 @@ namespace RectSelector
         }
 
 
-        public int GetSelectedHandle(Point location) // надо базовый
+        public int GetSelectedHandle(Point location)
         {
 
             if (handles == null) return -1;
@@ -90,8 +138,8 @@ namespace RectSelector
             int deltaX = (endPoint.X - startPoint.X);
             int deltaY = (endPoint.Y - startPoint.Y);
 
-            int minWidth = minSize; // Minimum rectangle width
-            int minHeight = minSize; // Minimum rectangle height
+            int minWidth = minSize;
+            int minHeight = minSize; 
 
             int newWidth = _rect.Width;
             int newHeight = _rect.Height;
@@ -110,20 +158,30 @@ namespace RectSelector
 
             if (newWidth >= minWidth && newHeight >= minHeight)
             {
-                if (handleIndex == 0 || handleIndex == 6 || handleIndex == 7)
-                    _rect.X += deltaX;
-                if (handleIndex == 0 || handleIndex == 1 || handleIndex == 2)
-                    _rect.Y += deltaY;
+                Rectangle newRect = new Rectangle(_rect.Location, new Size(newWidth, newHeight));
 
-                _rect.Width = newWidth;
-                _rect.Height = newHeight;
+                if (handleIndex == 0 || handleIndex == 6 || handleIndex == 7)
+                    newRect.X += deltaX;
+                if (handleIndex == 0 || handleIndex == 1 || handleIndex == 2)
+                    newRect.Y += deltaY;
+
+                if (newRect.IsRectangleInsidePictureBox(pictureBox,ScaleFactor))
+                {
+                    _rect = newRect;
+                } else
+                {
+                    _rect = newRect.ClipRectangleToPictureBox(pictureBox, ScaleFactor);
+                }
             }
         }
 
+
         public void DrawRectangleAndHandles(Graphics graphics)
         {
+            DrawTitle(graphics); 
+
             using (Pen pen = new Pen(Color.Red, 2))
-            using (Brush brush = new SolidBrush(Color.FromArgb(128, Color.Blue)))
+            using (Brush brush = new SolidBrush(Color.FromArgb(60, Color.Blue)))
             {
                 graphics.FillRectangle(brush, GetRectangle());
                 graphics.DrawRectangle(pen, GetRectangle());
@@ -151,9 +209,18 @@ namespace RectSelector
             int deltaX = (endPoint.X - startPoint.X);
             int deltaY = (endPoint.Y - startPoint.Y);
 
-            _rect.X += deltaX;
-            _rect.Y += deltaY;
+            Rectangle newRect = new Rectangle(_rect.X + deltaX, _rect.Y + deltaY, _rect.Width, _rect.Height);
+
+            if (newRect.IsRectangleInsidePictureBox(pictureBox,ScaleFactor))
+            {
+                _rect = newRect;
+            }
+            else
+            {
+                _rect = newRect.AlignRectangleToPictureBoxEdges(pictureBox, ScaleFactor);
+            }
         }
+
 
         public void UpdateHandles()
         {
@@ -171,6 +238,10 @@ namespace RectSelector
                 new Rectangle(new Point((int)Math.Round(_rect.Left * ScaleFactor - ResizeHandleSize / 2.0), (int)Math.Round((_rect.Top + _rect.Height / 2.0) * ScaleFactor - ResizeHandleSize / 2.0)), size),
             };
         }
+        
+
+        
+
     }
 
 

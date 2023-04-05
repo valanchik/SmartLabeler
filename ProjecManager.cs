@@ -1,5 +1,6 @@
 ﻿using InputControllers;
 using PicturePlayer;
+using RectSelector;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,9 +19,12 @@ namespace ProcScan
         private PlayerInputHandler  inputsHandler;
         private IInputController inputs;
         private RectangleManagerForPlayer rectangleManagerForPlayer;
+        private RectangleSelector rectangleSelector;
         public ProjecManager(IInputController playerInputs, IInputController rectInputs)
         {
-            rectangleManagerForPlayer = new RectangleManagerForPlayer(rectInputs);
+            rectangleSelector = new RectangleSelector((PictureBox)playerInputs.GetElement(InputsControllerType.PictureBox), rectInputs);
+            new ZoomablePictureBox(rectangleSelector);
+            rectangleManagerForPlayer = new RectangleManagerForPlayer(rectInputs, rectangleSelector);
             this.inputs = playerInputs;
             inputsHandler = new PlayerInputHandler(playerInputs);
             videoFileSelector = new VideoFileSelector(
@@ -49,6 +53,7 @@ namespace ProcScan
             }
             if (player!=null)
             {
+                rectangleManagerForPlayer.ResetRectangles();
                 rectangleManagerForPlayer.SetPlayer(player);
                 player.SetSource(source);
                 player.Init();

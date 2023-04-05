@@ -11,16 +11,20 @@ public class RectangleManagerForPlayer
     private IPlayer player;
     private RectangleSelector rectangleSelector;
 
-    public RectangleManagerForPlayer( IInputController rectInputController)
+    public RectangleManagerForPlayer( IInputController rectInputController, RectangleSelector rectangleSelector)
     {
         this.rectInputController = rectInputController;
+        this.rectangleSelector = rectangleSelector;
     }
     public void SetPlayer(IPlayer player)
     {
         this.player?.Pause();
         this.player = player;
         HandlingPlayer();
-        rectangleSelector =  new RectangleSelector(player.GetScreen(), rectInputController);
+    }
+    public void ResetRectangles()
+    {
+        _rectsList.Clear();
     }
 
     private void HandlingPlayer()
@@ -28,9 +32,10 @@ public class RectangleManagerForPlayer
         player.OnTick -= Player_OnTick;
         player.OnTick += Player_OnTick;
     }
-
+    
     private void Player_OnTick()
     {
+        
         var currentIndex = player.GetCurrentFrameIndex();
 
         if (_rectsList.TryGetValue(currentIndex, out var rects))
