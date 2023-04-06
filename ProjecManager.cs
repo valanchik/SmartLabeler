@@ -1,4 +1,5 @@
-﻿using InputControllers;
+﻿using Hotkeys;
+using InputControllers;
 using PicturePlayer;
 using RectSelector;
 using System;
@@ -18,14 +19,20 @@ namespace ProcScan
         private IPlayer player;
         private PlayerInputHandler  inputsHandler;
         private IInputController inputs;
+        private readonly IInputController rectInputs;
+        private readonly HotkeyManager hotkeyManager;
         private RectangleManagerForPlayer rectangleManagerForPlayer;
         private RectangleSelector rectangleSelector;
-        public ProjecManager(IInputController playerInputs, IInputController rectInputs)
+        public ProjecManager(IInputController playerInputs, IInputController rectInputs, HotkeyManager hotkeyManager)
         {
-            rectangleSelector = new RectangleSelector((PictureBox)playerInputs.GetElement(InputsControllerType.PictureBox), rectInputs);
-            new ZoomablePictureBox(rectangleSelector);
-            rectangleManagerForPlayer = new RectangleManagerForPlayer(rectInputs, rectangleSelector);
             this.inputs = playerInputs;
+            this.rectInputs = rectInputs;
+            this.hotkeyManager = hotkeyManager;
+            rectangleSelector = new RectangleSelector((PictureBox)playerInputs.GetElement(InputsControllerType.PictureBox), rectInputs, hotkeyManager);
+            new ZoomablePictureBox(rectangleSelector);
+
+            rectangleManagerForPlayer = new RectangleManagerForPlayer(rectInputs, rectangleSelector);
+            
             inputsHandler = new PlayerInputHandler(playerInputs);
             videoFileSelector = new VideoFileSelector(
                 (Button)playerInputs.GetElement(InputsControllerType.OpenVideo)

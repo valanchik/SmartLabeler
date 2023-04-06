@@ -1,4 +1,5 @@
 ﻿
+using Hotkeys;
 using InputControllers;
 using ProcScan.RectSelector;
 using System;
@@ -11,57 +12,93 @@ namespace RectSelector
 
     public class RectangleSelector : IScalible
     {
-        private readonly PictureBox _pictureBox;
+        public delegate void RectangleHandler(ResizableRectangle clickedRectangle);
+        public event RectangleHandler RectangleClicked;
+        public event RectangleHandler RectangleSelected;
+        private readonly PictureBox pictureBox;
         private readonly Label rectInfo;
-        private Button addRectToFrame;
-
+        private readonly Button addRectToFrame;
         private int _selectedHandle;
-
         private ResizableRectangle _resizableRect;
         private List<ResizableRectangle> _resizableRectangles;
         private ResizableRectangle _selectedResizableRect;
         private ResizableRectangleManager _resizableRectangleManager;
         private readonly DrawingRectangle _drawingRectangle;
         private RectangleMover _rectangleMover;
-        private double _scalingFactor = 1F;
-        private readonly IInputController _inputController;
+        private double scalingFactor = 1F;
+        private readonly IInputController inputController;
+        private readonly HotkeyManager hotkeyManager;
+        private ResizableRectangle clickedResizableRectangle;
+        private ResizableRectangle forCopyRectangle;
 
-        public RectangleSelector(PictureBox pictureBox, IInputController inputController)
+
+        public RectangleSelector(PictureBox pictureBox, IInputController inputController, HotkeyManager hotkeyManager)
         {
-            _pictureBox = pictureBox;
-            _inputController = inputController;
+            this.pictureBox = pictureBox;
+            this.inputController = inputController;
+            this.hotkeyManager = hotkeyManager;
             rectInfo = (Label)inputController.GetElement(InputsControllerType.RectangleInfo);
-            addRectToFrame = ((Button)_inputController.GetElement(InputsControllerType.AddRectToFrameBtn));
-
-
+            addRectToFrame = ((Button)this.inputController.GetElement(InputsControllerType.AddRectToFrameBtn));
             InitializeEventHandlers();
             _resizableRectangles = new List<ResizableRectangle>();
             _rectangleMover = new RectangleMover(_resizableRect);
             _resizableRectangleManager = new ResizableRectangleManager();
             _drawingRectangle = new DrawingRectangle();
             ResetState();
+            hotkeyManager.AddHotkey(new Hotkey(Keys.C, true, false,false), OnCopy);
+            hotkeyManager.AddHotkey(new Hotkey(Keys.V, true,false,false), OnPaste);
+            hotkeyManager.AddHotkey(new Hotkey(Keys.Delete), OnDelete);
+        }
+
+        private void OnDelete()
+        {
+            
+        }
+
+        private void OnPaste()
+        {
+            if (forCopyRectangle!=null)
+            {
+                AddRectangle(forCopyRectangle);
+            }
+        }
+
+        private void OnCopy()
+        {
+            if (clickedResizableRectangle!=null)
+            {
+                forCopyRectangle = clickedResizableRectangle;
+            }
         }
 
         public void SetRectangles(List<ResizableRectangle> list)
         {
-            foreach (var rect in list) rect.ScaleFactor = _scalingFactor;
+            foreach (ResizableRectangle rect in list) rect.ScaleFactor = scalingFactor;
             _resizableRectangles = list;
+        }
+        public void AddRectangle(ResizableRectangle rect)
+        {
+            var cloned = rect.Clone();
+            cloned.SetScaleFactor(scalingFactor);
+            cloned.Index = _resizableRectangles.Count;
+            _resizableRectangles.Add(rect);
+            
         }
         public PictureBox GetPictureBox()
         {
-            return _pictureBox;
+            return pictureBox;
         }
         public void SetScaleFactor(double scaleFactor)
         {
             if (scaleFactor > 0)
             {
-                _scalingFactor = scaleFactor;
-                foreach (var rect in _resizableRectangles)
+                scalingFactor = scaleFactor;
+                foreach (ResizableRectangle rect in _resizableRectangles)
                 {
-                    rect.SetScaleFactor(_scalingFactor);
+                    rect.SetScaleFactor(scalingFactor);
                 }
-                _drawingRectangle.SetScaleFactor(_scalingFactor);
-                _resizableRectangleManager?.SetScaleFactor(_scalingFactor);
+                _drawingRectangle.SetScaleFactor(scalingFactor);
+                _resizableRectangleManager?.SetScaleFactor(scalingFactor);
                 UpdateAllRectangles();
             }
         }
@@ -73,12 +110,26 @@ namespace RectSelector
 
         private void InitializeEventHandlers()
         {
-            _pictureBox.MouseDoubleClick += PictureBox_MouseDoubleClick;
-            _pictureBox.MouseMove += PictureBox_MouseMove;
-            _pictureBox.MouseDown += PictureBox_MouseDown;
-            _pictureBox.MouseUp += PictureBox_MouseUp;
-            _pictureBox.Paint += PictureBox_Paint;
+            pictureBox.MouseDoubleClick += PictureBox_MouseDoubleClick;
+            pictureBox.MouseMove += PictureBox_MouseMove;
+            pictureBox.MouseDown += PictureBox_MouseDown;
+            pictureBox.MouseUp += PictureBox_MouseUp;
+            pictureBox.Paint += PictureBox_Paint;
             addRectToFrame.Click += ClickOnNewRect;
+            pictureBox.MouseClick += PictureBox_MouseClick;
+        }
+        private void PictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            (ResizableRectangle _selectedResizableRect, int handleIndex) = GetSelectedResizableRectangle(e.Location);
+            if (_selectedResizableRect != null)
+            {
+                clickedResizableRectangle = _selectedResizableRect;
+            }
+            else
+            {
+                clickedResizableRectangle = null;
+            }
+            RectangleClicked?.Invoke(clickedResizableRectangle);
         }
 
         private void ResetState()
@@ -90,8 +141,8 @@ namespace RectSelector
 
         private void ClickOnNewRect(object sender, EventArgs e)
         {
-            _resizableRect = new ResizableRectangle(_resizableRectangles.Count, _pictureBox);
-            _resizableRect.SetScaleFactor(_scalingFactor);
+            _resizableRect = new ResizableRectangle(_resizableRectangles.Count, pictureBox);
+            _resizableRect.SetScaleFactor(scalingFactor);
             _resizableRectangles.Add(_resizableRect);
             _drawingRectangle.SetResizebleRectangle(_resizableRect);
             _drawingRectangle.IsDrawing = true;
@@ -100,15 +151,7 @@ namespace RectSelector
 
         private void PictureBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            for (int i = _resizableRectangles.Count - 1; i >= 0; i--)
-            {
-                if (_resizableRectangles[i].IsMouseInsideRectangle(e.Location))
-                {
-                    _resizableRectangles.RemoveAt(i);
-                    _pictureBox.Invalidate();
-                    break;
-                }
-            }
+            OnDelete();
         }
 
         private void PictureBox_MouseDown(object sender, MouseEventArgs e)
@@ -123,7 +166,6 @@ namespace RectSelector
             }
         }
 
-
         private void ProcessSelectionAndResizing(Point location)
         {
             (ResizableRectangle _selectedResizableRect, int handleIndex) = GetSelectedResizableRectangle(location);
@@ -133,6 +175,7 @@ namespace RectSelector
                 if (handleIndex != -1)
                 {
                     this._selectedResizableRect = _selectedResizableRect;
+                    RectangleSelected?.Invoke(_selectedResizableRect);
                     StartResizing(location, handleIndex);
                 }
                 else if (!_rectangleMover.IsMoving)
@@ -147,7 +190,7 @@ namespace RectSelector
             int handleIndex = -1;
             ResizableRectangle selectedRect = null;
 
-            foreach (var rect in _resizableRectangles)
+            foreach (ResizableRectangle rect in _resizableRectangles)
             {
                 handleIndex = rect.GetSelectedHandle(location);
                 if (handleIndex != -1 || rect.IsMouseInsideRectangle(location))
@@ -165,7 +208,7 @@ namespace RectSelector
             _selectedHandle = handleIndex;
             _resizableRectangleManager = new ResizableRectangleManager();
             _resizableRectangleManager.SetResizableRectangle(_selectedResizableRect);
-            _selectedResizableRect.SetScaleFactor(_scalingFactor);
+            _selectedResizableRect.SetScaleFactor(scalingFactor);
             _resizableRectangleManager.StartResizing(_selectedHandle, location);
         }
 
@@ -219,19 +262,19 @@ namespace RectSelector
                 UpdateAllRectangles();
                 (Cursor cursor, ResizableRectangle selectedRect) = GetCursorForLocation(e.Location);
 
-                _pictureBox.Cursor = cursor;
+                pictureBox.Cursor = cursor;
                 if (selectedRect != null)
                 {
                     selectedRect.SetDrawHandleStatus(true);
-                    var list = _resizableRectangles.FindAll(x => x.Index != selectedRect.Index);
-                    foreach (var rect in list)
+                    List<ResizableRectangle> list = _resizableRectangles.FindAll(x => x.Index != selectedRect.Index);
+                    foreach (ResizableRectangle rect in list)
                     {
                         rect.SetDrawHandleStatus(false);
                     }
                 }
                 else
                 {
-                    foreach (var rect in _resizableRectangles)
+                    foreach (ResizableRectangle rect in _resizableRectangles)
                     {
                         rect.SetDrawHandleStatus(false);
                     }
@@ -244,7 +287,7 @@ namespace RectSelector
             // location уже умножен
             ResizableRectangle selectedRect = null;
             //var forIsmouseinside = new Point((int)(location.X / _scalingFactor), (int)(location.Y / _scalingFactor));
-            foreach (var rect in _resizableRectangles)
+            foreach (ResizableRectangle rect in _resizableRectangles)
             {
                 int handleIndex = rect.GetSelectedHandle(location); // надо умноженный
                 if (handleIndex > -1)
@@ -268,7 +311,7 @@ namespace RectSelector
 
         private void PictureBox_Paint(object sender, PaintEventArgs e)
         {
-            foreach (var rect in _resizableRectangles)
+            foreach (ResizableRectangle rect in _resizableRectangles)
             {
                 rect.DrawRectangleAndHandles(e.Graphics);
             }
@@ -295,33 +338,12 @@ namespace RectSelector
         }
         public void UpdateAllRectangles()
         {
-            foreach (var rect in _resizableRectangles)
+            foreach (ResizableRectangle rect in _resizableRectangles)
             {
                 rect.UpdateHandles();
             }
-            _pictureBox.Invalidate();
+            pictureBox.Invalidate();
         }
-        private void KeepRectangleInsidePictureBox(ref Rectangle rect)
-        {
-            int maxWidth = _pictureBox.Width;
-            int maxHeight = _pictureBox.Height;
 
-            if (rect.X < 0)
-            {
-                rect.X = 0;
-            }
-            if (rect.Y < 0)
-            {
-                rect.Y = 0;
-            }
-            if (rect.X + rect.Width > maxWidth)
-            {
-                rect.Width = maxWidth - rect.X;
-            }
-            if (rect.Y + rect.Height > maxHeight)
-            {
-                rect.Height = maxHeight - rect.Y;
-            }
-        }
     }
 }

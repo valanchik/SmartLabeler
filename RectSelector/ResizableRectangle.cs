@@ -7,7 +7,7 @@ namespace RectSelector
     public class ResizableRectangle : IScalible
     {
         private string _title = "None";
-        public readonly int Index;
+        public  int Index;
         private Rectangle _rect = new Rectangle();
         private const int ResizeHandleSize = 6;
         Rectangle[] handles;
@@ -22,6 +22,18 @@ namespace RectSelector
             this.pictureBox = pictureBox;
             Index = index;
             UpdateHandles();
+        }
+        public ResizableRectangle Clone()
+        {
+            ResizableRectangle cloned = new ResizableRectangle(Index, pictureBox)
+            {
+                ScaleFactor = ScaleFactor,
+                _title = _title,
+                _drawHandleStatus = _drawHandleStatus,
+                _rect = new Rectangle(_rect.Location, _rect.Size),
+            };
+            cloned.UpdateHandles();
+            return cloned;
         }
         public void SetTitle(string title)
         {

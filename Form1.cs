@@ -1,7 +1,9 @@
-﻿using InputControllers;
+﻿using Hotkeys;
+using InputControllers;
 using PicturePlayer;
 using RectSelector;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
@@ -13,9 +15,11 @@ namespace ProcScan
         private readonly RectangleSelector _rectangleSelector;
         private readonly ZoomablePictureBox _zoomablePictureBox;
         private readonly InputRectController _inputRectController;
+        private HotkeyManager hotkeyManager;
         public Form1()
         {
             InitializeComponent();
+            hotkeyManager = HotkeyManager.Instance;
             IInputController rectController = new InputController();
             rectController.SetElement(InputsControllerType.RectangleInfo, rectangleInfo);
             rectController.SetElement(InputsControllerType.AddRectToFrameBtn, addRectToFrameBtn);
@@ -32,13 +36,19 @@ namespace ProcScan
             playerControls.SetElement(InputsControllerType.OpenImageFolder, openFolderButton);
             playerControls.SetElement(InputsControllerType.SpeedPlayback, speedPlayback);
 
-            new ProjecManager(playerControls, rectController);
+            new ProjecManager(playerControls, rectController, hotkeyManager);
         }
         
 
         private async void button1_Click(object sender, EventArgs e)
         {
 
+        }
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            Debug.WriteLine(keyData);
+            hotkeyManager.ProcessHotkeys(keyData);
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
     public class DoubleBufferedPictureBox : PictureBox
