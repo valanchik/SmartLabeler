@@ -2,7 +2,7 @@
 using System;
 using System.Drawing;
 
-namespace ProcScan.RectSelector
+namespace SmartLabeler.RectSelector
 {
     public class DrawingRectangle : IScalible
     {
