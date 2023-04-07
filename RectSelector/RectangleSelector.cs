@@ -1,7 +1,7 @@
 ﻿
 using Hotkeys;
 using InputControllers;
-using ProcScan.RectSelector;
+using SmartLabeler.RectSelector;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

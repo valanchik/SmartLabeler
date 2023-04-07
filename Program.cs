@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace ProcScan
+namespace SmartLabeler
 {
     static class Program
     {
@@ -14,7 +14,7 @@ namespace ProcScan
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new SmartLabeler());
         }
     }
 }

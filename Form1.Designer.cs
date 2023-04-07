@@ -1,7 +1,7 @@
 ﻿
-namespace ProcScan
+namespace SmartLabeler
 {
-    partial class Form1
+    partial class SmartLabeler
     {
         /// <summary>
         ///  Required designer variable.
@@ -33,12 +33,11 @@ namespace ProcScan
             this.openVideoButton = new System.Windows.Forms.Button();
             this.addRectToFrameBtn = new System.Windows.Forms.Button();
             this.rectangleInfo = new System.Windows.Forms.Label();
-            this.pictureBox = new ProcScan.DoubleBufferedPictureBox();
-            this.doubleBufferedPanel1 = new ProcScan.DoubleBufferedPanel();
             this.videoToImagesButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.openFolderButton = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.currentFrameInfo = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.speedPlayback = new System.Windows.Forms.NumericUpDown();
             this.prevFrameBtn = new System.Windows.Forms.Button();
@@ -47,12 +46,13 @@ namespace ProcScan
             this.stopBtn = new System.Windows.Forms.Button();
             this.playBtn = new System.Windows.Forms.Button();
             this.timelineBar = new System.Windows.Forms.ProgressBar();
-            this.currentFrameInfo = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
-            this.doubleBufferedPanel1.SuspendLayout();
+            this.doubleBufferedPanel2 = new DoubleBufferedPanel();
+            this.pictureBox = new DoubleBufferedPictureBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedPlayback)).BeginInit();
+            this.doubleBufferedPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -87,27 +87,6 @@ namespace ProcScan
             this.rectangleInfo.Size = new System.Drawing.Size(38, 15);
             this.rectangleInfo.TabIndex = 4;
             this.rectangleInfo.Text = "label1";
-            // 
-            // pictureBox
-            // 
-            this.pictureBox.Location = new System.Drawing.Point(40, 46);
-            this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(395, 243);
-            this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pictureBox.TabIndex = 5;
-            this.pictureBox.TabStop = false;
-            // 
-            // doubleBufferedPanel1
-            // 
-            this.doubleBufferedPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.doubleBufferedPanel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.doubleBufferedPanel1.Controls.Add(this.pictureBox);
-            this.doubleBufferedPanel1.Location = new System.Drawing.Point(12, 41);
-            this.doubleBufferedPanel1.Name = "doubleBufferedPanel1";
-            this.doubleBufferedPanel1.Size = new System.Drawing.Size(1018, 397);
-            this.doubleBufferedPanel1.TabIndex = 6;
             // 
             // videoToImagesButton
             // 
@@ -159,6 +138,15 @@ namespace ProcScan
             this.panel1.Size = new System.Drawing.Size(1018, 40);
             this.panel1.TabIndex = 10;
             // 
+            // currentFrameInfo
+            // 
+            this.currentFrameInfo.AutoSize = true;
+            this.currentFrameInfo.Location = new System.Drawing.Point(368, 14);
+            this.currentFrameInfo.Name = "currentFrameInfo";
+            this.currentFrameInfo.Size = new System.Drawing.Size(30, 15);
+            this.currentFrameInfo.TabIndex = 7;
+            this.currentFrameInfo.Text = "0 / 0";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -192,7 +180,7 @@ namespace ProcScan
             // 
             // prevFrameBtn
             // 
-            this.prevFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.back;
+            this.prevFrameBtn.BackgroundImage = global::SmartLabeler.Properties.Resources.back;
             this.prevFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.prevFrameBtn.CausesValidation = false;
             this.prevFrameBtn.Location = new System.Drawing.Point(49, 3);
@@ -203,7 +191,7 @@ namespace ProcScan
             // 
             // nextFrameBtn
             // 
-            this.nextFrameBtn.BackgroundImage = global::ProcScan.Properties.Resources.forward;
+            this.nextFrameBtn.BackgroundImage = global::SmartLabeler.Properties.Resources.forward;
             this.nextFrameBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.nextFrameBtn.CausesValidation = false;
             this.nextFrameBtn.Location = new System.Drawing.Point(141, 3);
@@ -214,7 +202,7 @@ namespace ProcScan
             // 
             // pauseBtn
             // 
-            this.pauseBtn.BackgroundImage = global::ProcScan.Properties.Resources.pause;
+            this.pauseBtn.BackgroundImage = global::SmartLabeler.Properties.Resources.pause;
             this.pauseBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pauseBtn.CausesValidation = false;
             this.pauseBtn.Location = new System.Drawing.Point(187, 3);
@@ -225,7 +213,7 @@ namespace ProcScan
             // 
             // stopBtn
             // 
-            this.stopBtn.BackgroundImage = global::ProcScan.Properties.Resources.stop;
+            this.stopBtn.BackgroundImage = global::SmartLabeler.Properties.Resources.stop;
             this.stopBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.stopBtn.CausesValidation = false;
             this.stopBtn.Location = new System.Drawing.Point(95, 3);
@@ -236,7 +224,7 @@ namespace ProcScan
             // 
             // playBtn
             // 
-            this.playBtn.BackgroundImage = global::ProcScan.Properties.Resources.play;
+            this.playBtn.BackgroundImage = global::SmartLabeler.Properties.Resources.play;
             this.playBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.playBtn.CausesValidation = false;
             this.playBtn.Location = new System.Drawing.Point(3, 3);
@@ -252,40 +240,45 @@ namespace ProcScan
             this.timelineBar.Size = new System.Drawing.Size(1018, 23);
             this.timelineBar.TabIndex = 11;
             // 
-            // currentFrameInfo
+            // doubleBufferedPanel2
             // 
-            this.currentFrameInfo.AutoSize = true;
-            this.currentFrameInfo.Location = new System.Drawing.Point(368, 14);
-            this.currentFrameInfo.Name = "currentFrameInfo";
-            this.currentFrameInfo.Size = new System.Drawing.Size(30, 15);
-            this.currentFrameInfo.TabIndex = 7;
-            this.currentFrameInfo.Text = "0 / 0";
+            this.doubleBufferedPanel2.Controls.Add(this.pictureBox);
+            this.doubleBufferedPanel2.Location = new System.Drawing.Point(12, 51);
+            this.doubleBufferedPanel2.Name = "doubleBufferedPanel2";
+            this.doubleBufferedPanel2.Size = new System.Drawing.Size(1018, 387);
+            this.doubleBufferedPanel2.TabIndex = 12;
             // 
-            // Form1
+            // pictureBox
+            // 
+            this.pictureBox.Location = new System.Drawing.Point(155, 82);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(447, 229);
+            this.pictureBox.TabIndex = 0;
+            this.pictureBox.TabStop = false;
+            // 
+            // SmartLabeler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1210, 585);
+            this.Controls.Add(this.doubleBufferedPanel2);
             this.Controls.Add(this.timelineBar);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.openFolderButton);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.doubleBufferedPanel1);
             this.Controls.Add(this.rectangleInfo);
             this.Controls.Add(this.openVideoButton);
             this.DoubleBuffered = true;
-            this.Name = "Form1";
-            this.Text = "Form1";
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
-            this.doubleBufferedPanel1.ResumeLayout(false);
-            this.doubleBufferedPanel1.PerformLayout();
+            this.Name = "SmartLabeler";
+            this.Text = "SmartLabeler";
             this.groupBox1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.speedPlayback)).EndInit();
+            this.doubleBufferedPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
@@ -310,6 +303,8 @@ namespace ProcScan
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown speedPlayback;
         private System.Windows.Forms.Label currentFrameInfo;
+        private DoubleBufferedPanel doubleBufferedPanel2;
+        private DoubleBufferedPictureBox doubleBufferedPictureBox2;
     }
 }
 

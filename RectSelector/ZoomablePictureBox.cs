@@ -1,4 +1,4 @@
-﻿using ProcScan;
+﻿using SmartLabeler;
 using RectSelector;
 using System;
 using System.Diagnostics;

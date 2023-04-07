@@ -1,7 +1,7 @@
 ﻿using RectSelector;
 using System.Drawing;
 
-namespace ProcScan.RectSelector
+namespace SmartLabeler.RectSelector
 {
     public class RectangleMover
     {

@@ -7,16 +7,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 
-namespace ProcScan
+namespace SmartLabeler
 {
-    public partial class Form1 : Form
+    public partial class SmartLabeler : Form
 
     {
-        private readonly RectangleSelector _rectangleSelector;
-        private readonly ZoomablePictureBox _zoomablePictureBox;
-        private readonly InputRectController _inputRectController;
         private HotkeyManager hotkeyManager;
-        public Form1()
+        public SmartLabeler()
         {
             InitializeComponent();
             hotkeyManager = HotkeyManager.Instance;
@@ -50,6 +47,7 @@ namespace ProcScan
             hotkeyManager.ProcessHotkeys(keyData);
             return base.ProcessCmdKey(ref msg, keyData);
         }
+
     }
     public class DoubleBufferedPictureBox : PictureBox
     {

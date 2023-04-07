@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace ProcScan
+namespace SmartLabeler
 {
     public class PictureBoxMover
     {
